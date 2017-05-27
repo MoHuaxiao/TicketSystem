@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/abc_search_url_text_normal">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:id="@+id/movieImg"
+                    android:src="@drawable/poster"
+                    android:layout_margin="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加勒比海盗5"
+                    android:textColor="@color/WhiteTextColor"
+                    android:textSize="17sp"
+                    android:id="@+id/movieTitle"
+                    android:layout_toEndOf="@+id/movieImg"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="2dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pirates of the Caribbean"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/movieTitleEng"
+                    android:layout_below="@+id/movieTitle"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="2dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="观众评分 >"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/ScoreOfCustomer"
+                    android:layout_below="@+id/movieTitleEng"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="2dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9.0"
+                    android:textColor="@color/YellowTextColor"
+                    android:id="@+id/Score"
+                    android:layout_below="@+id/ScoreOfCustomer"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(36002人评)"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/textView2"
+                    android:textSize="12sp"
+                    android:layout_alignBottom="@+id/Score"
+                    android:layout_toEndOf="@+id/Score" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="喜剧 动作 奇幻"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/movieType"
+                    android:layout_below="@+id/Score"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="美国 / "
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/movieSourceDest"
+                    android:layout_below="@+id/movieType"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_marginBottom="2dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="129分钟"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/movieTime"
+                    android:layout_alignTop="@+id/movieSourceDest"
+                    android:layout_toEndOf="@+id/movieSourceDest" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017-05-26大陆上映 >"
+                    android:textColor="@color/WhiteTextColor"
+                    android:id="@+id/movieOnTime"
+                    android:layout_below="@+id/movieSourceDest"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp" />
+
+                <ToggleButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New ToggleButton"
+                    android:id="@+id/toggleButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignEnd="@+id/Score" />
+
+                <ToggleButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New ToggleButton"
+                    android:id="@+id/toggleButton2"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@+id/movieTitleEng" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text2"
+                android:id="@+id/textView" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text3"
+                android:id="@+id/textView3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text4"
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text5"
+                android:id="@+id/textView5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text6"
+                android:id="@+id/textView6" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text7"
+                android:id="@+id/textView7" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70sp"
+                android:text="New Text8"
+                android:id="@+id/textView8" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="特惠购票"
+        android:id="@+id/ticketBookingBtn"
+        android:background="@color/PrimaryRed"
+        android:textColor="#ffffff"
+        android:textSize="10pt" />
+
+</LinearLayout>
