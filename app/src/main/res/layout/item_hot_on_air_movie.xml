@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/hot_on_air_movie_poster_view"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/poster_stub"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/hot_on_air_movie_poster_view"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/hot_on_air_movie_name_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BladeRunner"
+            android:textColor="@android:color/black"
+            />
+
+        <LinearLayout
+            android:id="@+id/hot_on_air_movie_audience_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hot_on_air_movie_rating_text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="观众 "
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/hot_on_air_movie_rating_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.0"
+                android:textColor="@android:color/holo_orange_light"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/hot_on_air_movie_one_sentence_review_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout="@+id/hot_on_air_movie_name_view"
+            android:text="Greated Movie of all time. @_@"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/hot_on_air_movie_showing_cinema_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今天0家影院放映0场"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hot_on_air_movie_button_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <!--Fill the button in here.-->
+
+
+    </LinearLayout>
+
+</RelativeLayout>
