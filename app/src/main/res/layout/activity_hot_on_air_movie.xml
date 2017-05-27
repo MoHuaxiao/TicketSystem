@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:layout="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_hot_on_air_movie"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.x7.ssad.ticketsystem.Activities.HotOnAirMovieActivity">
+
+    <include layout="@layout/layout_title_bar_top"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hot_on_air_movie_recycview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+
+</LinearLayout>
