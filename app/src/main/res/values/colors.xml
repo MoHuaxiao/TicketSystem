@@ -3,5 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="textColor">@android:color/black</color>
     <color name="ratingColor">@android:color/holo_orange_light</color>
+    <color name="buyButtonColor">@android:color/holo_red_light</color>
+    <color name="waitButtonColor">@android:color/holo_blue_light</color>
 </resources>

@@ -69,17 +69,17 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/hot_on_air_movie_button_stub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal">
-
         <!--Fill the button in here.-->
+        <Button xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/hot_on_air_wait_movie_buy_button"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_movie_nor"
+            android:text="购票"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="8dp"/>
 
-
-    </LinearLayout>
 
 </RelativeLayout>

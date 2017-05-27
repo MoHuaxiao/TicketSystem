@@ -1,5 +1,7 @@
 package com.x7.ssad.ticketsystem.Model;
 
+import java.util.Date;
+
 /**
  * Created by WangYinghao on 5/26/17.
  */
@@ -15,5 +17,7 @@ public class Movie {
     public int imageid;
 
     public boolean onair;
+
+    public Date premiereDate;
 
 }

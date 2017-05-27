@@ -19,7 +19,10 @@ import com.x7.ssad.ticketsystem.R;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,8 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
     private List<Movie> movie_list;
     private LayoutInflater mInflater;
 
+    SimpleDateFormat ft;
+
     public HotOnAirMovieAdapter(Context context, BackendStub backend) {
         super();
         c = context;
@@ -44,6 +49,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         li = LayoutInflater.from(context);
         res = context.getResources();
         movie_list = Backend.getHotOnAirMovies();
+        ft = new SimpleDateFormat("yyyy.MM.dd");
     }
 
     @Override
@@ -56,9 +62,8 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         holder.ratingText1 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text1);
         holder.ratingText2 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text2);
         holder.oneSentence = (TextView) view.findViewById(R.id.hot_on_air_movie_one_sentence_review_view);
-        holder.showingCinema = (TextView) view.findViewById(R.id.hot_on_air_movie_showing_cinema_view);
-        holder.buyButtonLayout = (LinearLayout) view.findViewById(R.id.hot_on_air_movie_button_stub);
-
+        holder.showingTips = (TextView) view.findViewById(R.id.hot_on_air_movie_showing_cinema_view);
+        holder.buyButton = (Button) view.findViewById(R.id.hot_on_air_wait_movie_buy_button);
         return holder;
     }
 
@@ -78,24 +83,41 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         holder.poster.setImageResource(m.imageid);
         holder.movieName.setText(m.name);
         holder.oneSentence.setText(m.one_sentence);
-        holder.showingCinema.setText(res.getString(R.string.showing_cinema, sc, sn));
-        if (movie_list.get(i).onair) {
-            holder.ratingText1.setText("观众 ");
-            holder.ratingText2.setText(String.format("%.2f", m.audience_rating));
-            holder.ratingText2.setTextColor(res.getColor(R.color.ratingColor));
 
-            buyNormal = (Button) li.inflate(R.layout.layout_button_movie_nor, holder.buyButtonLayout, false);
-            holder.buyButtonLayout.addView(buyNormal);
+        if (movie_list.get(i).onair) {
+            holder.showingTips.setText(res.getString(R.string.showing_cinema, sc, sn));
+
+
+            if (m.audience_rating != -1) {
+                holder.ratingText1.setText("观众 ");
+                holder.ratingText2.setText(String.format("%.1f", m.audience_rating));
+                holder.ratingText1.setTextColor(res.getColor(R.color.textColor));
+                holder.ratingText2.setTextColor(res.getColor(R.color.ratingColor));
+            }
+            else {
+                holder.ratingText1.setText(res.getString(R.string.no_rating));
+                holder.ratingText1.setTextColor(res.getColor(R.color.textColor));
+                holder.ratingText2.setText("");
+            }
+
+            holder.buyButton.setText("购票");
+            holder.buyButton.setTextColor(res.getColor(R.color.buyButtonColor));
+            holder.buyButton.setBackground(res.getDrawable(R.drawable.button_movie_nor));
         }
         else {
+
+            holder.showingTips.setText(res.getString(R.string.premiere_date, ft.format(m.premiereDate), dateDescFromNow(m.premiereDate)));
+
             holder.ratingText1.setText(String.format("%d", m.nWantSee));
             holder.ratingText2.setText(" 想看");
-            holder.ratingText1.setTextColor(c.getResources().getColor(R.color.ratingColor));
+            holder.ratingText1.setTextColor(res.getColor(R.color.ratingColor));
+            holder.ratingText2.setTextColor(res.getColor(R.color.textColor));
 
-            buyWait = (Button) li.inflate(R.layout.layout_button_movie_wait, holder.buyButtonLayout, false);
-            holder.buyButtonLayout.addView(buyWait);
+            holder.buyButton.setText("预售");
+            holder.buyButton.setTextColor(res.getColor(R.color.waitButtonColor));
+            holder.buyButton.setBackground(res.getDrawable(R.drawable.button_movie_wait));
         }
-
+        
     }
 
     @Override
@@ -109,12 +131,31 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         public TextView ratingText1;
         public TextView ratingText2;
         public TextView oneSentence;
-        public TextView showingCinema;
-        public LinearLayout buyButtonLayout;
+        public TextView showingTips;
+        public Button buyButton;
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
     }
 
+    private String dateDescFromNow(Date d) {
+
+        Date now = new Date();
+
+        long diff = d.getTime() - now.getTime();
+
+        int weeks = Double.valueOf(diff / 1000. / 3600. / 24. / 7.).intValue();
+        int days = Double.valueOf(diff / 1000. / 3600. / 24.).intValue();
+
+        if (weeks > 1) {
+            return Integer.toString(weeks) + "周后";
+        }
+        else {
+            return Integer.toString(days) + "天后";
+        }
+
+    }
+
 }
+
