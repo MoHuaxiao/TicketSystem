@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/main_content"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="com.x7.ssad.ticketsystem.Activities.MainActivity">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <View
+        android:background="#FFCCCCCC"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:background="@android:color/white"
+        app:tabMode="fixed"
+        app:tabIndicatorHeight="0dp"
+        app:tabTextColor="@color/tab_unselected_text_color"
+        app:tabSelectedTextColor="@color/tab_selected_text_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
