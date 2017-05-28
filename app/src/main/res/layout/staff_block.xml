@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/staffPhoto"
+        android:layout_width="@dimen/StaffPhotoSize"
+        android:layout_height="@dimen/StaffPhotoSize"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/johnny_depp" />
+
+    <TextView
+        android:id="@+id/staffName"
+        android:layout_width="@dimen/StaffPhotoSize"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:text="约翰尼·德普133"
+        android:textAlignment="center"
+        android:textColor="@color/GrayTextColor"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/staffDuty"
+        android:layout_width="@dimen/StaffPhotoSize"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="饰 杰克船长333333"
+        android:textAlignment="center"
+        android:textColor="@color/GrayTextColor"
+        android:textSize="12sp" />
+
+</LinearLayout>

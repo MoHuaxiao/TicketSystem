@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/headMovieInfomationPart"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/MovieBackground">
+
+                <ImageView
+                    android:id="@+id/movieImg"
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@mipmap/poster1" />
+
+                <TextView
+                    android:id="@+id/movieTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toEndOf="@+id/movieImg"
+                    android:text="加勒比海盗5"
+                    android:textColor="@color/GrayTextColor"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/movieTitleEng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/movieTitle"
+                    android:layout_marginBottom="2dp"
+                    android:text="Pirates of the Caribbean"
+                    android:textColor="@color/GrayTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/ScoreOfCustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/movieTitleEng"
+                    android:layout_marginBottom="2dp"
+                    android:text="观众评分 >"
+                    android:textColor="@color/GrayTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/Score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/ScoreOfCustomer"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:text="9.0"
+                    android:textColor="@color/PrimaryRed"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/Score"
+                    android:layout_toEndOf="@+id/Score"
+                    android:text="(36002人评)"
+                    android:textColor="@color/GrayTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/movieType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/Score"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="5dp"
+                    android:text="喜剧 动作 奇幻"
+                    android:textColor="@color/GrayTextColor" />
+
+                <TextView
+                    android:id="@+id/movieSourceDest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/movieType"
+                    android:layout_marginBottom="2dp"
+                    android:text="美国 / "
+                    android:textColor="@color/GrayTextColor" />
+
+                <TextView
+                    android:id="@+id/movieTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/movieSourceDest"
+                    android:layout_toEndOf="@+id/movieSourceDest"
+                    android:text="129分钟"
+                    android:textColor="@color/GrayTextColor" />
+
+                <TextView
+                    android:id="@+id/movieOnTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/movieTitle"
+                    android:layout_below="@+id/movieSourceDest"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:text="2017-05-26大陆上映 >"
+                    android:textColor="@color/GrayTextColor" />
+
+                <ToggleButton
+                    android:id="@+id/wantToSeeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/buttonHeight"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/movieImg"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/movie_info_button_seletor"
+                    android:checked="false"
+                    android:textColor="@color/WhiteTextColor"
+                    android:textOff="想看"
+                    android:textOn="已想看"
+                    android:textSize="16sp" />
+
+                <ToggleButton
+                    android:id="@+id/haveSeenBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/buttonHeight"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/movieImg"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/movie_info_button_seletor"
+                    android:checked="false"
+                    android:textColor="@color/WhiteTextColor"
+                    android:textOff="看过"
+                    android:textOn="已看过"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/movieIntroductionPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:text="Introductions of the movie………………"
+                    android:id="@+id/movieIntroText" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/GapViewHeight"
+                    android:background="@color/GapViewColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movieStaffInfoPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/zhuchuang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="主创"
+                    android:textColor="@color/BlackTextColor"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mainStaff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/GapViewHeight"
+                    android:background="@color/GapViewColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movieShootInfoPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tupian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="图片"
+                    android:textColor="@color/BlackTextColor"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/movieShoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/GapViewHeight"
+                    android:background="@color/GapViewColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/boxOfficeInfoPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/piaofang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="票房"
+                    android:textColor="@color/BlackTextColor"
+                    android:textSize="18sp" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/boxOfficeRank"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textSize="20sp"
+                            android:textColor="@color/PrimaryRed"/>
+
+                        <TextView
+                            android:id="@+id/boxOfficeWeek"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="8663"
+                            android:textSize="20sp"
+                            android:textColor="@color/PrimaryRed" />
+
+                        <TextView
+                            android:id="@+id/boxOfficeTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="93546"
+                            android:textSize="20sp"
+                            android:textColor="@color/PrimaryRed" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/paihang"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="昨日票房排行" />
+
+                        <TextView
+                            android:id="@+id/zhoupiaofang"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="首周票房(万)" />
+
+                        <TextView
+                            android:id="@+id/zongpiaofang"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="累计票房(万)" />
+                    </TableRow>
+
+
+                </TableLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/GapViewHeight"
+                    android:background="@color/GapViewColor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movieCommentPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/duanping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="短评"
+                    android:textColor="@color/BlackTextColor"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/movieComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/GapViewHeight"
+                    android:background="@color/GapViewColor" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="特惠购票"
+        android:id="@+id/ticketBookingBtn"
+        android:background="@drawable/book_ticket_button_seletor"
+        android:textColor="#ffffff"
+        android:textSize="10pt" />
+
+</LinearLayout>
