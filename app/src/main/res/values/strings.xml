@@ -13,4 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="no_rating">暂无观众评分</string>
+    <string name="showing_cinema">今天%1$d家影院上映%2$d场</string>
+    <string name="premiere_date">%1$s %2$s上映</string>
 </resources>

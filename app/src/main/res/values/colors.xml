@@ -6,6 +6,17 @@
 
     <color name="BlackTop">#3F3F3F</color>
     <color name="WhiteTextColor">#FFFFFF</color>
+    <color name="GrayTextColor">#6f6e6e</color>
+    <color name="BlackTextColor">#252525</color>
     <color name="YellowTextColor">#ffc600</color>
     <color name="PrimaryRed">#d43e37</color>
+    <color name="PrimaryRedPress">#B5201C</color>
+    <color name="MovieBackground">#D8CAC9</color>
+    <color name="GapViewColor">#f5f5f5</color>
+
+
+    <color name="textColor">@android:color/black</color>
+    <color name="ratingColor">@android:color/holo_orange_light</color>
+    <color name="buyButtonColor">@android:color/holo_red_light</color>
+    <color name="waitButtonColor">@android:color/holo_blue_light</color>
 </resources>
