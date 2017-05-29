@@ -16,6 +16,7 @@ import io.github.mayubao.pay_library.AliPayAPI;
 import io.github.mayubao.pay_library.AliPayReq2;
 import io.github.mayubao.pay_library.PayAPI;
 import io.github.mayubao.pay_library.WechatPayReq;
+import me.leefeng.promptlibrary.PromptDialog;
 
 /**
  * Created by huaxiao on 2017/5/29.
@@ -50,7 +51,7 @@ public class PaymentActivity extends AppCompatActivity{
         SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.payment_list_item, from, to);
         listview.setAdapter(adapter);
 
-//        pay_btn = (Button) findViewById(R.id.PaymentBtn);
+        pay_btn = (Button) findViewById(R.id.PaymentBtn);
 //        pay_btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -69,5 +70,12 @@ public class PaymentActivity extends AppCompatActivity{
 //                PayAPI.getInstance().sendPayRequest(wechatPayReq);
 //            }
 //        });
+        pay_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PromptDialog promptDialog = new PromptDialog(PaymentActivity.this);
+                promptDialog.showSuccess("支付成功");
+            }
+        });
     }
 }
