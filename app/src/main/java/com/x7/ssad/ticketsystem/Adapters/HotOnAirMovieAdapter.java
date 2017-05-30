@@ -117,7 +117,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
             holder.buyButton.setTextColor(res.getColor(R.color.waitButtonColor));
             holder.buyButton.setBackground(res.getDrawable(R.drawable.button_movie_wait));
         }
-        
+
     }
 
     @Override
