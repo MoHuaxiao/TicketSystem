@@ -2,4 +2,22 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="buttonHeight">40dp</dimen>
+    <dimen name="buttonWidth">150dp</dimen>
+
+    <dimen name="GapViewHeight">20dp</dimen>
+    <dimen name="StaffPhotoSize">80dp</dimen>
+
+    <dimen name="MovieShootHeight">80dp</dimen>
+    <dimen name="MovieShootWidth">120dp</dimen>
+
+    <dimen name="MovieCommentHead">50dp</dimen>
+
+    <dimen name="PaymentMovieTextMargin">6dp</dimen>
+    <dimen name="PaymentMarginBottom">12dp</dimen>
+
+    <dimen name="PaymentSizeRight">7pt</dimen>
+    <dimen name="PaymentSizeLeft">6pt</dimen>
+    <dimen name="PaymentMovieTextSize">8pt</dimen>
 </resources>
