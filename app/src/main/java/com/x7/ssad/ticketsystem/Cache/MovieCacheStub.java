@@ -105,7 +105,7 @@ public class MovieCacheStub {
     }
 
     public Movie getMovie(int mid) {
-        return movie_list.get(mid);
+        return movie_list.get(mid - 1);
     }
 
     public List<Movie> getMovieList() {

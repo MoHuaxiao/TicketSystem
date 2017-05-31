@@ -11,14 +11,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.x7.ssad.ticketsystem.Adapters.MovieCommentAdapter;
 import com.x7.ssad.ticketsystem.Adapters.MovieShootBlockAdapter;
 import com.x7.ssad.ticketsystem.Adapters.StaffBlockAdapter;
+import com.x7.ssad.ticketsystem.Backend.BackendStub;
+import com.x7.ssad.ticketsystem.Model.Movie;
 import com.x7.ssad.ticketsystem.Model.MovieComment;
 import com.x7.ssad.ticketsystem.Model.StaffInfo;
 import com.x7.ssad.ticketsystem.R;
+import com.x7.ssad.ticketsystem.Session.SessionManager;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,6 +38,12 @@ import java.util.ListIterator;
  */
 
 public class MovieInfoActivity extends AppCompatActivity implements View.OnClickListener {
+    private ImageView movieImageView;
+    private TextView movieNameView;
+    private TextView scoreView;
+    private TextView airingTimeView;
+    private TextView introView;
+
     private List<StaffInfo> staffInfoList = new ArrayList<>();    //the infomation list of staffs
     private List<Bitmap> movieShootList = new ArrayList<>();
     private List<MovieComment> movieCommentList = new ArrayList<>();
@@ -41,6 +55,9 @@ public class MovieInfoActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView movieCommentRecyclerView;
     private MovieCommentAdapter myMovieCommentAdapter;
 
+    private SessionManager SM;
+    private BackendStub backend;
+
     //UI
     Button ticketBookingBtn;
 
@@ -48,6 +65,25 @@ public class MovieInfoActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_info);
+
+        backend = BackendStub.getInstance();
+        SM = SessionManager.getInstance();
+
+        SimpleDateFormat smf = new SimpleDateFormat("yyyy-MM-dd");
+
+        ImageView movieImageView = (ImageView) findViewById(R.id.movieImg);
+        TextView movieNameView = (TextView) findViewById(R.id.movieTitle);
+        TextView scoreView = (TextView) findViewById(R.id.Score);
+        TextView airingTimeView = (TextView) findViewById(R.id.movieOnTime);
+        TextView introView = (TextView) findViewById(R.id.movieIntroText);
+
+        Movie CurrentMovie = backend.getMovieByID(SM.getMyMovieID());
+
+        movieImageView.setImageResource(CurrentMovie.imageid);
+        movieNameView.setText(CurrentMovie.name);
+        scoreView.setText(String.format("%.1f", CurrentMovie.audience_rating));
+        airingTimeView.setText(smf.format(CurrentMovie.premiereDate) + " 大陆上映");
+        introView.setText(CurrentMovie.one_sentence);
 
         //主创Staff部分
         mainStaffRecyclerView = (RecyclerView)findViewById(R.id.mainStaff);
@@ -111,4 +147,5 @@ public class MovieInfoActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
 }

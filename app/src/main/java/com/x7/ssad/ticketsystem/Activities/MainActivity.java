@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -35,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab2, null));
         tabLayout.getTabAt(2).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab3, null));
         tabLayout.getTabAt(3).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab4, null));
+
     }
+
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment movieFragment;
