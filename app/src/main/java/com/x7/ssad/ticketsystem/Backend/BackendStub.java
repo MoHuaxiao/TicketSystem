@@ -86,4 +86,6 @@ public class BackendStub {
         return CCS.getCinemaList();
     }
 
+    public Movie getMovieByID(int mid) { return MCS.getMovie(mid); }
+
 }

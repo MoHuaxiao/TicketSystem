@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.R;
+import com.x7.ssad.ticketsystem.Session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -343,6 +344,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent i = new Intent(_a, MainActivity.class);
+                SessionManager.getInstance().setMyEmail(mEmail);
                 _a.startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
