@@ -6,10 +6,10 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/movieShoot"
+        android:id="@+id/movieShot"
         android:layout_width="@dimen/MovieShootWidth"
         android:layout_height="@dimen/MovieShootHeight"
         android:scaleType="centerCrop"
-        android:src="@mipmap/movie_shoot" />
+        android:src="@mipmap/movie_shot" />
 
 </LinearLayout>

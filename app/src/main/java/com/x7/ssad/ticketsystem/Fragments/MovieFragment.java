@@ -36,7 +36,7 @@ public class MovieFragment extends Fragment {
 
         Log.d("Activity", Integer.toString(backend.getHotOnAirMovies().size()));
 
-        HotOnAirMovieList.setAdapter(new HotOnAirMovieAdapter(getActivity().getApplicationContext(), backend));
+        HotOnAirMovieList.setAdapter(new HotOnAirMovieAdapter(getActivity(), backend));
         return rootView;
     }
 }

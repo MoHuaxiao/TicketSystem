@@ -16,32 +16,32 @@ import java.util.List;
  * Created by Mo Haoran on 2017/5/28.
  */
 
-public class MovieShootBlockAdapter extends RecyclerView.Adapter<MovieShootBlockAdapter.ViewHolder> {
-    private List<Bitmap> movieShootList;
+public class MovieShotBlockAdapter extends RecyclerView.Adapter<MovieShotBlockAdapter.ViewHolder> {
+    private int[] movieshotIdList;
     private LayoutInflater mInflater;
 
-    public MovieShootBlockAdapter(Context context, List<Bitmap> _movieShootList) {
+    public MovieShotBlockAdapter(Context context, int[] _movieshotIdList) {
         super();
-        movieShootList = _movieShootList;
+        movieshotIdList = _movieshotIdList;
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public MovieShootBlockAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.movie_shoot_block, parent, false);
+    public MovieShotBlockAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.movie_shot_block, parent, false);
         ViewHolder holder = new ViewHolder(view);
-        holder.movieShootView = (ImageView) view.findViewById(R.id.movieShoot);
+        holder.movieShotView = (ImageView) view.findViewById(R.id.movieShot);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MovieShootBlockAdapter.ViewHolder holder, int position) {
-        holder.movieShootView.setImageBitmap(movieShootList.get(position));
+    public void onBindViewHolder(MovieShotBlockAdapter.ViewHolder holder, int position) {
+        holder.movieShotView.setImageResource(movieshotIdList[position]);
     }
 
     @Override
     public int getItemCount() {
-        return movieShootList.size();
+        return movieshotIdList.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,6 +49,6 @@ public class MovieShootBlockAdapter extends RecyclerView.Adapter<MovieShootBlock
             super(itemView);
         }
 
-        ImageView movieShootView;
+        ImageView movieShotView;
     }
 }

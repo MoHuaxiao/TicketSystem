@@ -1,6 +1,8 @@
 package com.x7.ssad.ticketsystem.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Debug;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.x7.ssad.ticketsystem.Activities.MovieInfoActivity;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.Model.Movie;
 import com.x7.ssad.ticketsystem.R;
+import com.x7.ssad.ticketsystem.Session.SessionManager;
 
 import org.w3c.dom.Text;
 
@@ -31,8 +35,9 @@ import java.util.List;
 
 public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdapter.ViewHolder> {
 
-    Context c;
-    LayoutInflater li;
+    SessionManager SM = SessionManager.getInstance();
+
+    Activity _a;
     Resources res;
     private BackendStub Backend;
     private List<Movie> movie_list;
@@ -40,16 +45,16 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
 
     SimpleDateFormat ft;
 
-    public HotOnAirMovieAdapter(Context context, BackendStub backend) {
+    public HotOnAirMovieAdapter(Activity activity, BackendStub backend) {
         super();
-        c = context;
         Backend = backend;
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(activity);
 
-        li = LayoutInflater.from(context);
-        res = context.getResources();
+        _a = activity;
+        res = activity.getResources();
         movie_list = Backend.getHotOnAirMovies();
         ft = new SimpleDateFormat("yyyy.MM.dd");
+
     }
 
     @Override
@@ -61,7 +66,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         holder.movieName = (TextView) view.findViewById(R.id.hot_on_air_movie_name_view);
         holder.ratingText1 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text1);
         holder.ratingText2 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text2);
-        holder.oneSentence = (TextView) view.findViewById(R.id.hot_on_air_movie_one_sentence_review_view);
+        holder.movieIntro = (TextView) view.findViewById(R.id.hot_on_air_movie_one_sentence_review_view);
         holder.showingTips = (TextView) view.findViewById(R.id.hot_on_air_movie_showing_cinema_view);
         holder.buyButton = (Button) view.findViewById(R.id.hot_on_air_wait_movie_buy_button);
         return holder;
@@ -70,7 +75,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int i) {
 
-        Movie m = movie_list.get(i);
+        final Movie m = movie_list.get(i);
 
         Log.d("Adpater", m.name);
 
@@ -82,8 +87,9 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         int sc = 100, sn = 1000;
         holder.poster.setImageResource(m.imageid);
         holder.movieName.setText(m.name);
-        holder.oneSentence.setText(m.one_sentence);
+        holder.movieIntro.setText(m.movieIntro);
 
+        //影片正在上演
         if (movie_list.get(i).onair) {
             holder.showingTips.setText(res.getString(R.string.showing_cinema, sc, sn));
 
@@ -103,7 +109,9 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
             holder.buyButton.setText("购票");
             holder.buyButton.setTextColor(res.getColor(R.color.buyButtonColor));
             holder.buyButton.setBackground(res.getDrawable(R.drawable.button_movie_nor));
+
         }
+        //影片还未上演
         else {
 
             holder.showingTips.setText(res.getString(R.string.premiere_date, ft.format(m.premiereDate), dateDescFromNow(m.premiereDate)));
@@ -117,7 +125,18 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
             holder.buyButton.setTextColor(res.getColor(R.color.waitButtonColor));
             holder.buyButton.setBackground(res.getDrawable(R.drawable.button_movie_wait));
         }
-        
+
+        holder.buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Setting session
+                SM.setMyMovieID(m.mid);
+                SM.setOnAir(m.onair);
+                //Go to movie info page.
+                Intent i = new Intent(_a, MovieInfoActivity.class);
+                _a.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -130,7 +149,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         public TextView movieName;
         public TextView ratingText1;
         public TextView ratingText2;
-        public TextView oneSentence;
+        public TextView movieIntro;
         public TextView showingTips;
         public Button buyButton;
         public ViewHolder(View itemView) {

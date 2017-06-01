@@ -6,13 +6,13 @@ import android.graphics.Bitmap;
  */
 
 public class MovieComment {
-    public Bitmap headphoto = null;
+    public int headphotoId = -1;
     public String mname = null;
     public String mcontent = null;
     public String mdate = null;
 
-    public MovieComment (Bitmap _headphoto, String _mname, String _mcontent, String _mdate) {
-        headphoto = _headphoto;
+    public MovieComment (int _headphotoId, String _mname, String _mcontent, String _mdate) {
+        headphotoId = _headphotoId;
         mname = _mname;
         mcontent = _mcontent;
         mdate = _mdate;
