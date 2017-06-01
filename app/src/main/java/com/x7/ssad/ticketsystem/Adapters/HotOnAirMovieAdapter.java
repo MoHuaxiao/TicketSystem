@@ -66,7 +66,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         holder.movieName = (TextView) view.findViewById(R.id.hot_on_air_movie_name_view);
         holder.ratingText1 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text1);
         holder.ratingText2 = (TextView) view.findViewById(R.id.hot_on_air_movie_rating_text2);
-        holder.oneSentence = (TextView) view.findViewById(R.id.hot_on_air_movie_one_sentence_review_view);
+        holder.movieIntro = (TextView) view.findViewById(R.id.hot_on_air_movie_one_sentence_review_view);
         holder.showingTips = (TextView) view.findViewById(R.id.hot_on_air_movie_showing_cinema_view);
         holder.buyButton = (Button) view.findViewById(R.id.hot_on_air_wait_movie_buy_button);
         return holder;
@@ -87,7 +87,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         int sc = 100, sn = 1000;
         holder.poster.setImageResource(m.imageid);
         holder.movieName.setText(m.name);
-        holder.oneSentence.setText(m.one_sentence);
+        holder.movieIntro.setText(m.movieIntro);
 
         //影片正在上演
         if (movie_list.get(i).onair) {
@@ -149,7 +149,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         public TextView movieName;
         public TextView ratingText1;
         public TextView ratingText2;
-        public TextView oneSentence;
+        public TextView movieIntro;
         public TextView showingTips;
         public Button buyButton;
         public ViewHolder(View itemView) {

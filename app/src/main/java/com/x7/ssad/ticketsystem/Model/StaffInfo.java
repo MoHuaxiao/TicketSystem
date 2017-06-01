@@ -7,12 +7,12 @@ import android.graphics.Bitmap;
  */
 
 public class StaffInfo {
-    public Bitmap sphoto = null;
+    public int sphotoId = -1;
     public String sname = null;
     public String sduty = null;
 
-    public StaffInfo (Bitmap _sphoto, String _sname, String _sduty) {
-        sphoto = _sphoto;
+    public StaffInfo (int _sphotoId, String _sname, String _sduty) {
+        sphotoId = _sphotoId;
         sname = _sname;
         sduty = _sduty;
     }

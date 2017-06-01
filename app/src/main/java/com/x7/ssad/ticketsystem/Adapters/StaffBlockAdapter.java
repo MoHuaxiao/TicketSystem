@@ -42,7 +42,7 @@ public class StaffBlockAdapter extends RecyclerView.Adapter<StaffBlockAdapter.Vi
 
     @Override
     public void onBindViewHolder(StaffBlockAdapter.ViewHolder holder, int position) {
-        holder.staffPhotoView.setImageBitmap(staffInfoList.get(position).sphoto);
+        holder.staffPhotoView.setImageResource(staffInfoList.get(position).sphotoId);
         holder.staffNameView.setText(staffInfoList.get(position).sname);
         holder.staffDutyView.setText(staffInfoList.get(position).sduty);
     }

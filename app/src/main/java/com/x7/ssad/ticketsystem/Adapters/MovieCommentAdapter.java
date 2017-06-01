@@ -40,7 +40,7 @@ public class MovieCommentAdapter extends RecyclerView.Adapter<MovieCommentAdapte
 
     @Override
     public void onBindViewHolder(MovieCommentAdapter.ViewHolder holder, int position) {
-        holder.headerView.setImageBitmap(movieCommentList.get(position).headphoto);
+        holder.headerView.setImageResource(movieCommentList.get(position).headphotoId);
         holder.nameView.setText(movieCommentList.get(position).mname);
         holder.contentView.setText(movieCommentList.get(position).mcontent);
         holder.dateView.setText(movieCommentList.get(position).mdate);
