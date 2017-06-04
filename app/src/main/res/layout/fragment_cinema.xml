@@ -5,9 +5,10 @@
     tools:context="com.x7.ssad.ticketsystem.Fragments.CinemaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/cinemaListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="电影院" />
+        android:layout_height="match_parent">
+    </ListView>
 
 </FrameLayout>
