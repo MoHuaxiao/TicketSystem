@@ -1,13 +1,16 @@
 package com.x7.ssad.ticketsystem.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.x7.ssad.ticketsystem.Activities.CinemaDetail;
 import com.x7.ssad.ticketsystem.Adapters.CinemaAdapter;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.R;
@@ -34,6 +37,13 @@ public class CinemaFragment extends Fragment {
         }
         CinemaAdapter cinemaAdapter = new CinemaAdapter(cinemaList, getActivity());
         cinemaListView.setAdapter(cinemaAdapter);
+        cinemaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), CinemaDetail.class);
+                startActivity(intent);
+            }
+        });
         return rootView;
     }
 }
