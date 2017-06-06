@@ -35,7 +35,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.CinemaDetail"></activity>
+        <activity android:name=".Activities.CinemaDetail" />
+        <activity android:name=".Activities.SelectSeatActivity"></activity>
     </application>
 
 </manifest>

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.x7.ssad.ticketsystem.Fragments.CinemaFragment;
 import com.x7.ssad.ticketsystem.Fragments.MineFragment;
 import com.x7.ssad.ticketsystem.Fragments.MovieFragment;
-import com.x7.ssad.ticketsystem.Fragments.SelectSeatFragment;
 import com.x7.ssad.ticketsystem.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab1, null));
         tabLayout.getTabAt(1).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab2, null));
         tabLayout.getTabAt(2).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab3, null));
-        tabLayout.getTabAt(3).setCustomView(getLayoutInflater().inflate(R.layout.activity_main_tab4, null));
 
     }
 
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         private Fragment movieFragment;
         private Fragment cinemaFragment;
         private Fragment mineFragment;
-
-        private Fragment selectSeatFragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -90,12 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return mineFragment;
             }
-            else if (position == 3) {
-                if (selectSeatFragment == null) {
-                    selectSeatFragment = new SelectSeatFragment();
-                }
-                return selectSeatFragment;
-            }
             else {
                 return null;
             }
@@ -103,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
 
         @Override
