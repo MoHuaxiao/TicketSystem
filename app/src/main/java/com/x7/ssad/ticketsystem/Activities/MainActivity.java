@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import com.x7.ssad.ticketsystem.Fragments.CinemaFragment;
 import com.x7.ssad.ticketsystem.Fragments.MineFragment;
@@ -39,6 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 返回后面 跳转到指定tab
+        int id = getIntent().getIntExtra("id", 0);
+        if (id == 1) {
+            tabLayout.getTabAt(1).select();
+        } else if (id == 3) {
+            tabLayout.getTabAt(3).select();
+        }
+    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -50,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
         }
 
         @Override

@@ -1,12 +1,15 @@
 package com.x7.ssad.ticketsystem.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.x7.ssad.ticketsystem.Activities.MainActivity;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.Model.Ticket;
 import com.x7.ssad.ticketsystem.R;
@@ -59,6 +62,7 @@ public class TicketAdapter extends BaseAdapter{
             viewHolder.endTime = (TextView) view.findViewById(R.id.endTime);
             viewHolder.type = (TextView) view.findViewById(R.id.type);
             viewHolder.price = (TextView) view.findViewById(R.id.price);
+            viewHolder.order_btn = (Button) view.findViewById(R.id.order_btn);
             view.setTag(viewHolder);
         }
         else {
@@ -70,6 +74,15 @@ public class TicketAdapter extends BaseAdapter{
         viewHolder.endTime.setText(list.get(position).endTime);
         viewHolder.type.setText(list.get(position).type);
         viewHolder.price.setText(list.get(position).price + "");
+        viewHolder.order_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("id", 3);
+                context.startActivity(intent);
+
+            }
+        });
         return view;
     }
 
@@ -78,5 +91,6 @@ public class TicketAdapter extends BaseAdapter{
         public TextView endTime;
         public TextView type;
         public TextView price;
+        public Button order_btn;
     }
 }
