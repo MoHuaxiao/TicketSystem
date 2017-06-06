@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         int id = getIntent().getIntExtra("id", 0);
         if (id == 1) {
             tabLayout.getTabAt(1).select();
+        } else if (id == 3) {
+            tabLayout.getTabAt(3).select();
         }
     }
 
