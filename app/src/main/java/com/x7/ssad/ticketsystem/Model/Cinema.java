@@ -11,4 +11,14 @@ public class Cinema {
     public long[] ShowingMovie;
     public long[] ShowingCnt;
 
+    // 电影院数据
+    public String cPosition;
+    public int cLowestPrice;
+    public Cinema() {
+    }
+    public Cinema(String name, String position, int price) {
+        this.cName = name;
+        this.cPosition = position;
+        this.cLowestPrice = price;
+    }
 }

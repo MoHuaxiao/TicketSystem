@@ -1,5 +1,6 @@
 package com.x7.ssad.ticketsystem.Activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.x7.ssad.ticketsystem.Adapters.MovieCommentAdapter;
 import com.x7.ssad.ticketsystem.Adapters.MovieShotBlockAdapter;
 import com.x7.ssad.ticketsystem.Adapters.StaffBlockAdapter;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
+import com.x7.ssad.ticketsystem.Fragments.MovieFragment;
 import com.x7.ssad.ticketsystem.Model.BoxOffice;
 import com.x7.ssad.ticketsystem.Model.Movie;
 import com.x7.ssad.ticketsystem.Model.MovieComment;
@@ -119,8 +121,9 @@ public class MovieInfoActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ticketBookingBtn:
                 //跳转逻辑
-//                Intent intent = new Intent(MovieInfoActivity.this, LoginActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MovieInfoActivity.this, MainActivity.class);
+                intent.putExtra("id",1); //第二个fragment
+                startActivity(intent);
                 break;
             default:
                 break;

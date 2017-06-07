@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="10">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cinema_name"
+        android:text="XXX影院"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cinema_movie_time"
+        android:text="上映时间：XXXXXXX"
+        android:paddingLeft="10dp"/>
+    <com.x7.ssad.ticketsystem.SeatTable.SeatTable
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/seatView"
+        android:background="#ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="9"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/confirm_select_seat"
+        android:id="@+id/confirm_select_seat_btn"
+        android:background="@drawable/book_ticket_button_seletor"
+        android:textColor="#ffffff"
+        android:visibility="invisible"
+        android:textSize="10pt" />
+</LinearLayout>
