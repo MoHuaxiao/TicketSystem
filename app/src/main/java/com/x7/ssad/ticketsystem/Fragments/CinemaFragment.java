@@ -46,6 +46,7 @@ public class CinemaFragment extends Fragment {
         cinemaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSessionManager.setMyCinemaID(cinemaList.get(position).cid);
                 Intent intent = new Intent(getActivity(), CinemaDetail.class);
                 startActivity(intent);
             }

@@ -20,7 +20,7 @@ public class SessionManager {
     }
 
     private String myEmail;
-    private int myMovieID;
+    private int myMovieID = -1;
     private boolean isOnAir;
     private Long myCinemaID;
 

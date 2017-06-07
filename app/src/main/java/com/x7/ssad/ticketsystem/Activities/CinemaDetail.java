@@ -97,8 +97,15 @@ public class CinemaDetail extends AppCompatActivity {
 
         mSessionManager  = SessionManager.getInstance();
         backend = BackendStub.getInstance();
+
+
         mCinema = backend.getCinemaByID(mSessionManager.getMyCinemaID());
-        mMovie = backend.getMovieByID(mSessionManager.getMyMovieID());
+
+        if (mSessionManager.getMyMovieID() != -1) {
+            mMovie = backend.getMovieByID(mSessionManager.getMyMovieID());
+        } else {
+            mMovie = backend.getMovieByID((int)mCinema.ShowingMovie[0]);
+        }
 
         ShowingMovie = mCinema.ShowingMovie;
         movieshotIdList = new int[mCinema.ShowingMovie.length];
