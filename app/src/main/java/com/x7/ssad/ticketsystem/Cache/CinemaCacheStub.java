@@ -92,4 +92,13 @@ public class CinemaCacheStub {
         return count;
     }
 
+    public Cinema getCinemaByID(Long cid) {
+        for (int i = 0; i < cinemaList.size(); i++) {
+            if (cinemaList.get(i).cid == cid) {
+                return cinemaList.get(i);
+            }
+        }
+        return null;
+    }
+
 }

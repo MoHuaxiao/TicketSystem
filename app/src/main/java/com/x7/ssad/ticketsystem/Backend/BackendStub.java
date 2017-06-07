@@ -88,4 +88,9 @@ public class BackendStub {
 
     public Movie getMovieByID(int mid) { return MCS.getMovie(mid); }
 
+    public List<Long> getCinemaIdsListByMovieId(int mid) { return CCS.getShowingCinemas(mid); }
+
+    public Cinema getCinemaByID(Long cid) {
+        return CCS.getCinemaByID(cid);
+    }
 }
