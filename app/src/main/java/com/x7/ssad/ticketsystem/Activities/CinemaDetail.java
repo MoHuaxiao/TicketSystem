@@ -49,6 +49,10 @@ public class CinemaDetail extends AppCompatActivity {
         initData();
         initView();
 
+        System.out.println(mCinema.cid);
+        System.out.println(mCinema.cPosition);
+
+
         cName.setText(mCinema.cName);
         cPosition.setText(mCinema.cPosition);
         cScore.setText(mCinema.cScore + "");

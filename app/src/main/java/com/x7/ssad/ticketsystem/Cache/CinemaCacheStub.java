@@ -26,6 +26,8 @@ public class CinemaCacheStub {
         A.cName = "DaDi Cinema";
         A.ShowingMovie = new long[] {1, 2, 3, 4, 5};
         A.ShowingCnt = new long[] {6, 3, 5, 6, 2};
+        A.cScore = 8;
+        A.cPosition = "小谷围 中山大道";
 
         //Cinema Two
         Cinema B = new Cinema();
@@ -33,6 +35,8 @@ public class CinemaCacheStub {
         B.cName = "JinYi Cinema";
         B.ShowingMovie = new long[] {2, 3, 5, 6};
         B.ShowingCnt = new long[] {4, 3, 2 ,5};
+        B.cScore = 2;
+        B.cPosition = "广州塔 旁边的街道";
 
         //Cinema Three
         Cinema C = new Cinema();
@@ -40,6 +44,8 @@ public class CinemaCacheStub {
         C.cName = "Wanda Cinema";
         C.ShowingMovie = new long[] {1, 2, 3};
         C.ShowingCnt = new long[] {4, 6, 2};
+        C.cPosition = "番禺区 万胜围";
+        C.cScore = 9;
 
         cinemaList.add(A);
         cinemaList.add(B);
