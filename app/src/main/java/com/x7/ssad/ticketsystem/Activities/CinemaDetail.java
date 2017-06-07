@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.x7.ssad.ticketsystem.Adapters.MovieImageListAdapter;
 import com.x7.ssad.ticketsystem.Adapters.MovieShotBlockAdapter;
 import com.x7.ssad.ticketsystem.Adapters.TicketAdapter;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
@@ -22,6 +23,8 @@ import com.x7.ssad.ticketsystem.Model.Movie;
 import com.x7.ssad.ticketsystem.Model.Ticket;
 import com.x7.ssad.ticketsystem.R;
 import com.x7.ssad.ticketsystem.Session.SessionManager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,8 @@ public class CinemaDetail extends AppCompatActivity {
     private TextView cName;
     private TextView cPosition;
     private TextView cScore;
+    private TextView movieNmae;
+    private TextView movieLengthAndTag;
 
 
     @Override
@@ -49,11 +54,7 @@ public class CinemaDetail extends AppCompatActivity {
 
         initData();
         initView();
-
-        cName.setText(mCinema.cName);
-        cPosition.setText(mCinema.cPosition);
-        cScore.setText(mCinema.cScore + "");
-
+        updateView();
 
         TicketAdapter ticketAdapter = new TicketAdapter(ticketList, this);
         ticketListView.setAdapter(ticketAdapter);
@@ -62,11 +63,11 @@ public class CinemaDetail extends AppCompatActivity {
         // 获取数据
 //        Movie CurrentMovie = backend.getMovieByID(SM.getMyMovieID());
 
-        MovieShotBlockAdapter movieShotBlockAdapter = new MovieShotBlockAdapter(getApplicationContext(), movieshotIdList);
+        MovieImageListAdapter movieImageListAdapter = new MovieImageListAdapter(getApplicationContext(), movieshotIdList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CinemaDetail.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         movieShootRecyclerView.setLayoutManager(linearLayoutManager);
-        movieShootRecyclerView.setAdapter(movieShotBlockAdapter);
+        movieShootRecyclerView.setAdapter(movieImageListAdapter);
     }
 
     private void initView() {
@@ -74,9 +75,20 @@ public class CinemaDetail extends AppCompatActivity {
         cPosition = (TextView) findViewById(R.id.cPosition);
         cScore = (TextView) findViewById(R.id.cScore);
         cName = (TextView) findViewById(R.id.cName);
-
+        movieNmae = (TextView) findViewById(R.id.movieName);
+        movieLengthAndTag = (TextView) findViewById(R.id.movieLenghAndTag);
     }
-    private void initData() {
+
+    public void updateView() {
+        cName.setText(mCinema.cName);
+        cPosition.setText(mCinema.cPosition);
+        cScore.setText(mCinema.cScore + "");
+        movieNmae.setText(mMovie.name);
+        movieLengthAndTag.setText(mMovie.movieLength + "|动画|山新");
+    }
+
+
+    public void initData() {
 
         mSessionManager  = SessionManager.getInstance();
         backend = BackendStub.getInstance();
