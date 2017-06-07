@@ -121,8 +121,8 @@ public class MovieInfoActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ticketBookingBtn:
                 //跳转逻辑
-                Intent intent = new Intent(MovieInfoActivity.this, MainActivity.class);
-                intent.putExtra("id",1); //第二个fragment
+                Intent intent = new Intent(MovieInfoActivity.this, CinemaActivity.class);
+//                intent.putExtra("id",1); //第二个fragment
                 startActivity(intent);
                 break;
             default:
