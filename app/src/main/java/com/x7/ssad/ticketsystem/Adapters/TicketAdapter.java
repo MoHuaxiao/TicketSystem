@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.x7.ssad.ticketsystem.Activities.MainActivity;
+import com.x7.ssad.ticketsystem.Activities.SelectSeatActivity;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.Model.Ticket;
 import com.x7.ssad.ticketsystem.R;
@@ -77,8 +78,8 @@ public class TicketAdapter extends BaseAdapter{
         viewHolder.order_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("id", 3);
+//                传入数据
+                Intent intent = new Intent(context, SelectSeatActivity.class);
                 context.startActivity(intent);
 
             }

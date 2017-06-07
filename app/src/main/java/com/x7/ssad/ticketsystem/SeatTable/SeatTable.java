@@ -22,6 +22,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -34,16 +35,20 @@ import com.x7.ssad.ticketsystem.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by baoyunlong on 16/6/16.
- */
-public class SeatTable extends View {
-    private final boolean DBG = false;
 
+public class SeatTable extends View {
+//    是否输出debug信息
+    private final boolean DBG = false;
+    final int bacColor = Color.parseColor("#7e000000");
+
+    /**
+     * 主界面、该蓝图、行号绘图笔
+     * */
     Paint paint = new Paint();
     Paint overviewPaint = new Paint();
-    Paint lineNumberPaint;
-    float lineNumberTxtHeight;
+    Paint lineNumberPaint = new Paint();
+
+    float lineNumberTxtHeight = lineNumberPaint.measureText("4");
 
     /**
      * 设置行号 默认显示 1,2,3....数字
@@ -58,24 +63,26 @@ public class SeatTable extends View {
      * 用来保存所有行号
      */
     ArrayList<String> lineNumbers = new ArrayList<>();
+    int lineNumberTextSize = 15;
 
     Paint.FontMetrics lineNumberPaintFontMetrics;
+//    缩略图矩阵
     Matrix matrix = new Matrix();
 
     /**
      * 座位水平间距
      */
-    int spacing;
+    int spacing = (int) dip2Px(5);
 
     /**
      * 座位垂直间距
      */
-    int verSpacing;
+    int verSpacing = (int) dip2Px(10);
 
     /**
      * 行号宽度
      */
-    int numberWidth;
+    int numberWidth = (int) dip2Px(20);
 
     /**
      * 行数
@@ -150,7 +157,7 @@ public class SeatTable extends View {
     /**
      * 荧幕高度
      */
-    float screenHeight;
+    float screenHeight = dip2Px(20);
 
     /**
      * 荧幕默认宽度与座位图的比例
@@ -158,9 +165,9 @@ public class SeatTable extends View {
     float screenWidthScale = 0.5f;
 
     /**
-     * 荧幕最小宽度
+     * 默认荧幕最小宽度
      */
-    int defaultScreenWidth;
+    int defaultScreenWidth = (int) dip2Px(80);
 
     /**
      * 标识是否正在缩放
@@ -178,6 +185,9 @@ public class SeatTable extends View {
      */
     int maxSelected = Integer.MAX_VALUE;
 
+    /**
+     * 必须实现该接口以确定座位属性
+     * */
     private SeatChecker seatChecker;
 
     /**
@@ -195,7 +205,7 @@ public class SeatTable extends View {
      */
     float rectH;
 
-    Paint headPaint;
+    Paint headPaint = new Paint();
     Bitmap headBitmap;
 
     /**
@@ -246,18 +256,24 @@ public class SeatTable extends View {
     private boolean pointer;
 
     /**
-     * 顶部高度,可选,已选,已售区域的高度
+     * 顶部标题高度,（可选,已选,已售区域）文字和标题的高度
      */
-    float headHeight;
+    float headHeight = dip2Px(30);
 
-    Paint pathPaint;
-    RectF rectF;
+    /**
+     * 缩略图的过道的绘制
+     * */
+    Paint pathPaint = new Paint();
+    /**行号的矩形*/
+    RectF rectF = new RectF();
+
+    /**缩略图的红色边界*/
+    Paint redBorderPaint = new Paint();
 
     /**
      * 头部下面横线的高度
      */
     int borderHeight = 1;
-    Paint redBorderPaint;
 
     /**
      * 默认的座位图宽度,如果使用的自己的座位图片比这个尺寸大或者小,会缩放到这个大小
@@ -293,7 +309,7 @@ public class SeatTable extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SeatTableView);
         overview_checked = typedArray.getColor(R.styleable.SeatTableView_overview_checked, Color.parseColor("#5A9E64"));
         overview_sold = typedArray.getColor(R.styleable.SeatTableView_overview_sold, Color.RED);
-        txt_color=typedArray.getColor(R.styleable.SeatTableView_txt_color,Color.WHITE);
+        txt_color = typedArray.getColor(R.styleable.SeatTableView_txt_color,Color.WHITE);
         seatCheckedResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_checked, R.drawable.seat_green);
         seatSoldResID = typedArray.getResourceId(R.styleable.SeatTableView_overview_sold, R.drawable.seat_sold);
         seatAvailableResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_available, R.drawable.seat_gray);
@@ -315,74 +331,74 @@ public class SeatTable extends View {
     float yScale1 = 1;
 
     private void init() {
-        spacing = (int) dip2Px(5);
-        verSpacing = (int) dip2Px(10);
-        defaultScreenWidth = (int) dip2Px(80);
-
+//        从ResourceID中获取
+//        座位图片
         seatBitmap = BitmapFactory.decodeResource(getResources(), seatAvailableResID);
-
-        float scaleX = defaultImgW / seatBitmap.getWidth();
-        float scaleY = defaultImgH / seatBitmap.getHeight();
-        xScale1 = scaleX;
-        yScale1 = scaleY;
-
-        seatHeight= (int) (seatBitmap.getHeight()*yScale1);
-        seatWidth= (int) (seatBitmap.getWidth()*xScale1);
-
+//        选中的座位的图片
         checkedSeatBitmap = BitmapFactory.decodeResource(getResources(), seatCheckedResID);
+//        已经卖掉的座位图片
         seatSoldBitmap = BitmapFactory.decodeResource(getResources(), seatSoldResID);
 
-        seatBitmapWidth = (int) (column * seatBitmap.getWidth()*xScale1 + (column - 1) * spacing);
-        seatBitmapHeight = (int) (row * seatBitmap.getHeight()*yScale1 + (row - 1) * verSpacing);
+//        默认的座位图标的大小，xScale和yScale记录该缩放比例
+        xScale1 = defaultImgW / seatBitmap.getWidth();
+        yScale1 = defaultImgH / seatBitmap.getHeight();
+
+//        实际的座位高度和宽度会缩放到该比例，任意换一个图标也没问题
+        seatHeight = (int) (seatBitmap.getHeight()*yScale1);
+        seatWidth = (int) (seatBitmap.getWidth()*xScale1);
+
+//        整个座位图（矩阵）的宽高
+        seatBitmapWidth = (int) (column * seatBitmap.getWidth() * xScale1 + (column - 1) * spacing);
+        seatBitmapHeight = (int) (row * seatBitmap.getHeight() * yScale1 + (row - 1) * verSpacing);
+//        画笔设为红色
         paint.setColor(Color.RED);
-        numberWidth = (int) dip2Px(20);
 
-        screenHeight = dip2Px(20);
-        headHeight = dip2Px(30);
-
-        headPaint = new Paint();
+//        设置顶部栏文字Paint的属性
+//        抗锯齿
+        headPaint.setAntiAlias(true);
         headPaint.setStyle(Paint.Style.FILL);
         headPaint.setTextSize(24);
         headPaint.setColor(Color.WHITE);
-        headPaint.setAntiAlias(true);
 
-        pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        缩略图的过道
+        pathPaint.setAntiAlias(true);
         pathPaint.setStyle(Paint.Style.FILL);
-        pathPaint.setColor(Color.parseColor("#e2e2e2"));
+        pathPaint.setColor(Color.parseColor("#E2E2E2"));
 
-        redBorderPaint = new Paint();
+//        缩略图的红色边界
         redBorderPaint.setAntiAlias(true);
         redBorderPaint.setColor(Color.RED);
+//        仅描边
         redBorderPaint.setStyle(Paint.Style.STROKE);
         redBorderPaint.setStrokeWidth(getResources().getDisplayMetrics().density * 1);
 
-        rectF = new RectF();
 
+//        缩略图中每个座位的宽度和高度
         rectHeight = seatHeight / overviewScale;
         rectWidth = seatWidth / overviewScale;
+//        缩略图的水平和垂直座位间距
         overviewSpacing = spacing / overviewScale;
         overviewVerSpacing = verSpacing / overviewScale;
 
+//        绘制矩形时，边框各留出一行空白
         rectW = column * rectWidth + (column - 1) * overviewSpacing + overviewSpacing * 2;
         rectH = row * rectHeight + (row - 1) * overviewVerSpacing + overviewVerSpacing * 2;
+//        创建一个16位的概览图（4,4,4,4）
         overviewBitmap = Bitmap.createBitmap((int) rectW, (int) rectH, Bitmap.Config.ARGB_4444);
 
-        lineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        行号列
+        lineNumberPaint.setAntiAlias(true);
         lineNumberPaint.setColor(bacColor);
-        lineNumberPaint.setTextSize(getResources().getDisplayMetrics().density * 16);
-        lineNumberTxtHeight = lineNumberPaint.measureText("4");
-        lineNumberPaintFontMetrics = lineNumberPaint.getFontMetrics();
+        lineNumberPaint.setTextSize(getResources().getDisplayMetrics().density * lineNumberTextSize);
         lineNumberPaint.setTextAlign(Paint.Align.CENTER);
+        lineNumberPaintFontMetrics = lineNumberPaint.getFontMetrics();
 
-        if(lineNumbers==null){
-            lineNumbers=new ArrayList<>();
-        }else if(lineNumbers.size()<=0) {
+        if (lineNumbers.size() <= 0) {
             for (int i = 0; i < row; i++) {
-                lineNumbers.add((i + 1) + "");
+                lineNumbers.add(String.valueOf((i + 1)));
             }
         }
-
-
+//        将缩略图的矩阵缩略图平移到合适的位置
         matrix.postTranslate(numberWidth + spacing, headHeight + screenHeight + borderHeight + verSpacing);
 
     }
@@ -397,6 +413,7 @@ public class SeatTable extends View {
         drawSeat(canvas);
         drawNumber(canvas);
 
+//        头部：如果是自定义图片则使用自定义图片，否则使用生成的
         if (headBitmap == null) {
             headBitmap = drawHeadInfo();
         }
@@ -404,6 +421,7 @@ public class SeatTable extends View {
 
         drawScreen(canvas);
 
+//        是否要绘制概览图
         if (isDrawOverview) {
             long s = System.currentTimeMillis();
             if (isDrawOverviewBitmap) {
@@ -414,6 +432,7 @@ public class SeatTable extends View {
             Log.d("drawTime", "OverviewDrawTime:" + (System.currentTimeMillis() - s));
         }
 
+//        输出Debug信息：总耗时
         if (DBG) {
             long drawTime = System.currentTimeMillis() - startTime;
             Log.d("drawTime", "totalDrawTime:" + drawTime);
@@ -422,6 +441,7 @@ public class SeatTable extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+//        获取坐标
         int y = (int) event.getY();
         int x = (int) event.getX();
         super.onTouchEvent(event);
@@ -435,6 +455,7 @@ public class SeatTable extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+//                按下
                 pointer = false;
                 downX = x;
                 downY = y;
@@ -443,6 +464,7 @@ public class SeatTable extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
+//                没有放大缩小或点击
                 if (!isScaling && !isOnClick) {
                     int downDX = Math.abs(x - downX);
                     int downDY = Math.abs(y - downY);
@@ -455,6 +477,7 @@ public class SeatTable extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+//                抬起手指，把移除Overview的callback放回去
                 handler.postDelayed(hideOverviewRunnable, 1500);
 
                 autoScale();
@@ -473,6 +496,7 @@ public class SeatTable extends View {
         return true;
     }
 
+//    一个线程来停止显示概览图，并重新绘制View（invalidate）
     private Runnable hideOverviewRunnable = new Runnable() {
         @Override
         public void run() {
@@ -481,6 +505,7 @@ public class SeatTable extends View {
         }
     };
 
+//    生成一张Bitmap，显示顶部的信息
     Bitmap drawHeadInfo() {
         String txt = "已售";
         float txtY = getBaseLine(headPaint, 0, headHeight);
@@ -512,7 +537,7 @@ public class SeatTable extends View {
 
         float checkedSeatBitmapX = soldSeatBitmapY + seatSoldBitmap.getWidth() + spacing1 + txtWidth + spacing;
         tempMatrix.setScale(xScale1,yScale1);
-        tempMatrix.postTranslate(checkedSeatBitmapX,y);
+        tempMatrix.postTranslate(checkedSeatBitmapX,(headHeight - seatHeight) / 2);
         canvas.drawBitmap(checkedSeatBitmap, tempMatrix, headPaint);
         canvas.drawText("已选", checkedSeatBitmapX + spacing1 + seatWidth, txtY, headPaint);
 
@@ -556,29 +581,32 @@ public class SeatTable extends View {
     Matrix tempMatrix = new Matrix();
 
     void drawSeat(Canvas canvas) {
-        zoom = getMatrixScaleX();
         long startTime = System.currentTimeMillis();
+        zoom = getMatrixScaleX();
         float translateX = getTranslateX();
         float translateY = getTranslateY();
         float scaleX = zoom;
         float scaleY = zoom;
 
         for (int i = 0; i < row; i++) {
+//            行高与行底的位置
             float top = i * seatBitmap.getHeight() * yScale1 * scaleY + i * verSpacing * scaleY + translateY;
-
             float bottom = top + seatBitmap.getHeight() * yScale1 * scaleY;
+//            不允许超上下界
             if (bottom < 0 || top > getHeight()) {
                 continue;
             }
 
+//            列
             for (int j = 0; j < column; j++) {
                 float left = j * seatBitmap.getWidth() * xScale1 * scaleX + j * spacing * scaleX + translateX;
 
                 float right = (left + seatBitmap.getWidth() * xScale1 * scaleY);
+//                不允许超左右界
                 if (right < 0 || left > getWidth()) {
                     continue;
                 }
-
+//                get seat Type, scale on matrix
                 int seatType = getSeatType(i, j);
                 tempMatrix.setTranslate(left, top);
                 tempMatrix.postScale(xScale1, yScale1, left, top);
@@ -592,16 +620,16 @@ public class SeatTable extends View {
                         break;
                     case SEAT_TYPE_SELECTED:
                         canvas.drawBitmap(checkedSeatBitmap, tempMatrix, paint);
+//                        选中的座位显示行列
                         drawText(canvas, i, j, top, left);
                         break;
                     case SEAT_TYPE_SOLD:
                         canvas.drawBitmap(seatSoldBitmap, tempMatrix, paint);
                         break;
                 }
-
             }
         }
-
+//        输出debug信息：总耗时
         if (DBG) {
             long drawTime = System.currentTimeMillis() - startTime;
             Log.d("drawTime", "seatDrawTime:" + drawTime);
@@ -624,7 +652,7 @@ public class SeatTable extends View {
 
         return SEAT_TYPE_AVAILABLE;
     }
-
+//    id从0开始到n,一共几个位置就多少个ID
     private int getID(int row, int column) {
         return row * this.column + (column + 1);
     }
@@ -640,13 +668,13 @@ public class SeatTable extends View {
         String txt = (row + 1) + "排";
         String txt1 = (column + 1) + "座";
 
-        if(seatChecker!=null){
+        if(seatChecker != null){
             String[] strings = seatChecker.checkedSeatTxt(row, column);
-            if(strings!=null&&strings.length>0){
-                if(strings.length>=2){
+            if(strings != null&&strings.length > 0){
+                if( strings.length >= 2) {
                     txt=strings[0];
                     txt1=strings[1];
-                }else {
+                } else {
                     txt=strings[0];
                     txt1=null;
                 }
@@ -674,11 +702,10 @@ public class SeatTable extends View {
         }
 
         if (DBG) {
-            Log.d("drawTest:", "top:" + top);
+            Log.d("drawText:", "top:" + top);
         }
     }
 
-    int bacColor = Color.parseColor("#7e000000");
 
     /**
      * 绘制行号
@@ -891,12 +918,14 @@ public class SeatTable extends View {
 
     ArrayList<Integer> selects = new ArrayList<>();
 
-    public ArrayList<String> getSelectedSeat(){
-        ArrayList<String> results=new ArrayList<>();
+
+//    选择已经被选择的位置
+    public ArrayList<Pair<Integer, Integer>> getSelectedSeat() {
+        ArrayList<Pair<Integer, Integer>> results=new ArrayList<>();
         for(int i=0;i<this.row;i++){
             for(int j=0;j<this.column;j++){
                 if(isHave(getID(i,j))>=0){
-                    results.add(i+","+j);
+                    results.add(new Pair(i, j));
                 }
             }
         }
@@ -911,6 +940,7 @@ public class SeatTable extends View {
         selects.remove(index);
     }
 
+//    记录各方位的信息
     float[] m = new float[9];
 
     private float getTranslateX() {
@@ -1029,10 +1059,14 @@ public class SeatTable extends View {
 
     }
 
+    /**
+     * 设置有多少行多少列
+     * */
     public void setData(int row, int column) {
         this.row = row;
         this.column = column;
         init();
+//        redraw View
         invalidate();
     }
 
@@ -1096,7 +1130,7 @@ public class SeatTable extends View {
                                 }
                             } else {
                                 if (selects.size() >= maxSelected) {
-                                    Toast.makeText(getContext(), "最多只能选择" + maxSelected + "个", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "一次最多只能选择" + maxSelected + "个座位喔", Toast.LENGTH_SHORT).show();
                                     return super.onSingleTapConfirmed(e);
                                 } else {
                                     addChooseSeat(i, j);
@@ -1139,6 +1173,8 @@ public class SeatTable extends View {
         selects.add(id);
     }
 
+//    设置方法
+//    实现该接口的方法以确定哪些座位可以坐，哪些已售等等
     public interface SeatChecker {
         /**
          * 是否可用座位
@@ -1172,10 +1208,16 @@ public class SeatTable extends View {
 
     }
 
+    /**
+     * 设置荧幕的名字,eg:8号厅荧幕
+     * */
     public void setScreenName(String screenName) {
         this.screenName = screenName;
     }
 
+    /**
+     * 设置最多可以选择多少个位置
+     * */
     public void setMaxSelected(int maxSelected) {
         this.maxSelected = maxSelected;
     }
@@ -1185,6 +1227,9 @@ public class SeatTable extends View {
         invalidate();
     }
 
+    /**
+     * 当前有多少行是有空位的
+     * */
     private int getRowNumber(int row){
         int result=row;
         if(seatChecker==null){
@@ -1208,6 +1253,9 @@ public class SeatTable extends View {
         return result;
     }
 
+    /**
+     * 当前有多少列是有空位的
+     * */
     private int getColumnNumber(int row,int column){
         int result=column;
         if(seatChecker==null){
