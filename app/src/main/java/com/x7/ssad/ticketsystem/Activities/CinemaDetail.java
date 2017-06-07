@@ -28,7 +28,7 @@ public class CinemaDetail extends AppCompatActivity {
     private Cinema mCinema;
     private Movie mMovie;
     private ListView ticketListView;
-    private List<Ticket> ticketList;
+    private List<Ticket> ticketList = new ArrayList<Ticket>();;
 
     private int[] movieshotIdList;
 //    private int[] movieshotIdList = {R.mipmap.movie_shot, R.mipmap.movie_shot,
@@ -52,21 +52,24 @@ public class CinemaDetail extends AppCompatActivity {
         initView();
         updateView();
 
-        TicketAdapter ticketAdapter = new TicketAdapter(ticketList, this);
+        final TicketAdapter ticketAdapter = new TicketAdapter(ticketList, this);
         ticketListView.setAdapter(ticketAdapter);
 
         RecyclerView movieShootRecyclerView = (RecyclerView)findViewById(R.id.movieShot);
         // 获取数据
 //        Movie CurrentMovie = backend.getMovieByID(SM.getMyMovieID());
-        MovieImageListAdapter movieImageListAdapter = new MovieImageListAdapter(getApplicationContext(), movieshotIdList);
+        final MovieImageListAdapter movieImageListAdapter = new MovieImageListAdapter(getApplicationContext(), movieshotIdList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CinemaDetail.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         movieShootRecyclerView.setLayoutManager(linearLayoutManager);
         movieImageListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                System.out.println(position);
+                mSessionManager.setMyMovieID( backend.getMovieByID((int)mCinema.ShowingMovie[position]).mid);
+                initData();
                 updateView();
+                System.out.println(ticketList.size());
+                ticketAdapter.notifyDataSetChanged();
             }
         });
         movieShootRecyclerView.setAdapter(movieImageListAdapter);
@@ -103,7 +106,8 @@ public class CinemaDetail extends AppCompatActivity {
             movieshotIdList[i] = backend.getMovieByID((int)mCinema.ShowingMovie[i]).imageid;
         }
 
-        ticketList = new ArrayList<Ticket>();
+//        ticketList = new ArrayList<Ticket>();
+        ticketList.clear();
         for (int i = 0; i < mCinema.cTicketList.size(); i++) {
             if (mCinema.cTicketList.get(i).mid == mMovie.mid) {
                 ticketList.add(mCinema.cTicketList.get(i));
