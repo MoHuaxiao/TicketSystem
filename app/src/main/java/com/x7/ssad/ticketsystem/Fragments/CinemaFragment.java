@@ -12,8 +12,10 @@ import android.widget.ListView;
 
 import com.x7.ssad.ticketsystem.Activities.CinemaDetail;
 import com.x7.ssad.ticketsystem.Adapters.CinemaAdapter;
+import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.R;
+import com.x7.ssad.ticketsystem.Session.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +24,23 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CinemaFragment extends Fragment {
+
+
+    private SessionManager mSessionManager;
+    private BackendStub backend;
+    private List<Cinema> cinemaList;
+    private  ListView cinemaListView;
+    private View rootView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_cinema, container, false);
-        ListView cinemaListView = (ListView) rootView.findViewById(R.id.cinemaListView);
+        rootView =  inflater.inflate(R.layout.fragment_cinema, container, false);
 
-        List<Cinema> cinemaList = new ArrayList<Cinema>();
-        Cinema c;
-        for (int i = 0; i < 10; i++) {
-            c = new Cinema("今日珠江国际影城", "番禺区小谷围贝岗二横路1好店 新天地店", 30);
-            cinemaList.add(c);
-        }
+        initView();
+        initData();
+
         CinemaAdapter cinemaAdapter = new CinemaAdapter(cinemaList, getActivity());
         cinemaListView.setAdapter(cinemaAdapter);
         cinemaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,5 +51,14 @@ public class CinemaFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    private void initView() {
+        cinemaListView = (ListView) rootView.findViewById(R.id.cinemaListView);
+    }
+    private void initData() {
+        mSessionManager  = SessionManager.getInstance();
+        backend = BackendStub.getInstance();
+        cinemaList = backend.getCinemaList();
     }
 }
