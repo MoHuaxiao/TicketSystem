@@ -31,6 +31,7 @@ public class CinemaDetail extends AppCompatActivity {
     private SessionManager mSessionManager;
     private BackendStub backend;
     private Cinema mCinema;
+    private Movie mMovie;
     private ListView ticketListView;
     private List<Ticket> ticketList;
     private int[] movieshotIdList = {R.mipmap.movie_shot, R.mipmap.movie_shot,
@@ -48,10 +49,6 @@ public class CinemaDetail extends AppCompatActivity {
 
         initData();
         initView();
-
-        System.out.println(mCinema.cid);
-        System.out.println(mCinema.cPosition);
-
 
         cName.setText(mCinema.cName);
         cPosition.setText(mCinema.cPosition);
@@ -80,15 +77,22 @@ public class CinemaDetail extends AppCompatActivity {
 
     }
     private void initData() {
+
         mSessionManager  = SessionManager.getInstance();
         backend = BackendStub.getInstance();
         mCinema = backend.getCinemaByID(mSessionManager.getMyCinemaID());
+        mMovie = backend.getMovieByID(mSessionManager.getMyMovieID());
+
+        System.out.println(mMovie.mid);
+        System.out.println(mCinema.cTicketList.size());
+        System.out.println(mCinema.cTicketList.toString());
+
 
         ticketList = new ArrayList<Ticket>();
-        Ticket t;
-        for (int i = 0; i < 10; i++) {
-            t = new Ticket("17:05", "20:30", "原版3D", 48);
-            ticketList.add(t);
+        for (int i = 0; i < mCinema.cTicketList.size(); i++) {
+            if (mCinema.cTicketList.get(i).mid == mMovie.mid) {
+                ticketList.add(mCinema.cTicketList.get(i));
+            }
         }
     }
 }
