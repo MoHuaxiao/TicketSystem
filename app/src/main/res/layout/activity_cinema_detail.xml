@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:text="金逸珠江国际影城"
+            android:id="@+id/cName"
             android:textColor="#000000"
             android:textSize="20dp"
             android:layout_marginRight="5px"
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:text="7.4分"
+            android:id="@+id/cScore"
             android:textColor="@color/ratingColor"
             android:textSize="18dp"
             android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
     </LinearLayout>
     <TextView
         android:text="番禺区小谷围贝岗中二路1号店"
+        android:id="@+id/cPosition"
         android:layout_marginBottom="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

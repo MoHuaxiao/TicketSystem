@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.x7.ssad.ticketsystem.Adapters.MovieShotBlockAdapter;
 import com.x7.ssad.ticketsystem.Adapters.TicketAdapter;
@@ -27,35 +28,63 @@ import java.util.List;
 
 public class CinemaDetail extends AppCompatActivity {
 
-    private SessionManager SM;
+    private SessionManager mSessionManager;
     private BackendStub backend;
+    private Cinema mCinema;
+    private ListView ticketListView;
+    private List<Ticket> ticketList;
+    private int[] movieshotIdList = {R.mipmap.movie_shot, R.mipmap.movie_shot,
+            R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot};
+
+    private TextView cName;
+    private TextView cPosition;
+    private TextView cScore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cinema_detail);
-        ListView ticketListView = (ListView) findViewById(R.id.ticket_list);
-        List<Ticket> ticketList = new ArrayList<Ticket>();
-        Ticket t;
-        for (int i = 0; i < 10; i++) {
-            t = new Ticket("17:05", "20:30", "原版3D", 48);
-            ticketList.add(t);
-        }
+
+        initData();
+        initView();
+
+        cName.setText(mCinema.cName);
+        cPosition.setText(mCinema.cPosition);
+        cScore.setText(mCinema.cScore + "");
+
+
         TicketAdapter ticketAdapter = new TicketAdapter(ticketList, this);
         ticketListView.setAdapter(ticketAdapter);
 
         RecyclerView movieShootRecyclerView = (RecyclerView)findViewById(R.id.movieShot);
-        backend = BackendStub.getInstance();
-        SM = SessionManager.getInstance();
         // 获取数据
 //        Movie CurrentMovie = backend.getMovieByID(SM.getMyMovieID());
-        int movieshotIdList[] = {R.mipmap.movie_shot, R.mipmap.movie_shot,
-                R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot};
 
         MovieShotBlockAdapter movieShotBlockAdapter = new MovieShotBlockAdapter(getApplicationContext(), movieshotIdList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CinemaDetail.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         movieShootRecyclerView.setLayoutManager(linearLayoutManager);
         movieShootRecyclerView.setAdapter(movieShotBlockAdapter);
+    }
+
+    private void initView() {
+        ticketListView = (ListView) findViewById(R.id.ticket_list);
+        cPosition = (TextView) findViewById(R.id.cPosition);
+        cScore = (TextView) findViewById(R.id.cScore);
+        cName = (TextView) findViewById(R.id.cName);
+
+    }
+    private void initData() {
+        mSessionManager  = SessionManager.getInstance();
+        backend = BackendStub.getInstance();
+        mCinema = backend.getCinemaByID(mSessionManager.getMyCinemaID());
+
+        ticketList = new ArrayList<Ticket>();
+        Ticket t;
+        for (int i = 0; i < 10; i++) {
+            t = new Ticket("17:05", "20:30", "原版3D", 48);
+            ticketList.add(t);
+        }
     }
 }

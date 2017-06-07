@@ -22,6 +22,7 @@ public class SessionManager {
     private String myEmail;
     private int myMovieID;
     private boolean isOnAir;
+    private Long myCinemaID;
 
 //    选中的座位的行列号的ArrayList，比如选了第一排第二个座位和第三排第四个座位，则元素为Pair(1, 2), Pair(3, 4)
     private ArrayList<Pair<Integer, Integer>> selectSeats;
@@ -55,5 +56,13 @@ public class SessionManager {
 
     public void setSelectSeats(ArrayList<Pair<Integer, Integer>> selectSeats) {
         this.selectSeats = selectSeats;
+    }
+
+    public Long getMyCinemaID() {
+        return myCinemaID;
+    }
+
+    public void setMyCinemaID(Long myCinemaID) {
+        this.myCinemaID = myCinemaID;
     }
 }

@@ -44,6 +44,7 @@ public class CinemaActivity extends AppCompatActivity {
         cinemaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSessionManager.setMyCinemaID(cinemaList.get(position).cid);
                 Intent intent = new Intent(CinemaActivity.this, CinemaDetail.class);
                 startActivity(intent);
             }

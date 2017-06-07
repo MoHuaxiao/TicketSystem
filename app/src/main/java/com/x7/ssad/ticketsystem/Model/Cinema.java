@@ -14,6 +14,9 @@ public class Cinema {
     // 电影院数据
     public String cPosition;
     public int cLowestPrice;
+    public int cScore;
+
+
     public Cinema() {
     }
     public Cinema(String name, String position, int price) {
