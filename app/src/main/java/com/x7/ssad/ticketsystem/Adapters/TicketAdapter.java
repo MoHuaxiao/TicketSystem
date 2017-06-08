@@ -14,6 +14,7 @@ import com.x7.ssad.ticketsystem.Activities.SelectSeatActivity;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.Model.Ticket;
 import com.x7.ssad.ticketsystem.R;
+import com.x7.ssad.ticketsystem.Session.SessionManager;
 
 import java.util.List;
 
@@ -24,10 +25,12 @@ import java.util.List;
 public class TicketAdapter extends BaseAdapter{
     private List<Ticket> list;
     private Context context;
+    private SessionManager mSessionManager;
 
     public TicketAdapter(List<Ticket> list, Context context) {
         this.list = list;
         this.context = context;
+        mSessionManager = SessionManager.getInstance();
     }
 
     @Override
@@ -64,6 +67,7 @@ public class TicketAdapter extends BaseAdapter{
             viewHolder.type = (TextView) view.findViewById(R.id.type);
             viewHolder.price = (TextView) view.findViewById(R.id.price);
             viewHolder.order_btn = (Button) view.findViewById(R.id.order_btn);
+            viewHolder.order_btn.setTag(position);
             view.setTag(viewHolder);
         }
         else {
@@ -79,6 +83,8 @@ public class TicketAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
 //                传入数据
+                mSessionManager.setStartTime(list.get((Integer)v.getTag()).startTime);
+                mSessionManager.setEndTime(list.get((Integer)v.getTag()).endTime);
                 Intent intent = new Intent(context, SelectSeatActivity.class);
                 context.startActivity(intent);
 

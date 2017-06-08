@@ -7,8 +7,11 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.x7.ssad.ticketsystem.Backend.BackendStub;
+import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.R;
 import com.x7.ssad.ticketsystem.SeatTable.SeatTable;
 import com.x7.ssad.ticketsystem.Session.SessionManager;
@@ -18,7 +21,12 @@ import java.util.ArrayList;
 public class SelectSeatActivity extends AppCompatActivity {
     private SeatTable seatTableView;
     private Button confirm_select_seat_btn;
+    private TextView cinema_name_textView;
+    private TextView cinema_movie_time_textView;
+
+    private BackendStub backend;
     private SessionManager mSessionManager;
+    private Cinema mCinema;
     private ArrayList<Pair<Integer, Integer>> selectSeats;
 
     @Override
@@ -26,8 +34,9 @@ public class SelectSeatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_seat);
 
-        initData();
         initViews();
+        initData();
+        setViews();
 
 //        TODOS：查询影厅数据库
 
@@ -41,7 +50,7 @@ public class SelectSeatActivity extends AppCompatActivity {
             //            有getSelectedSeat方法
             @Override
             public boolean isValidSeat(int row, int column) {
-//                设置哪些是合法的位置，比如这里，第五排就是过道，不能选
+//                设置哪些是合法的位置，比如这里，假设第五排就是过道，不能选
                 if(column==5) {
                     return false;
                 }
@@ -50,9 +59,6 @@ public class SelectSeatActivity extends AppCompatActivity {
 
             @Override
             public boolean isSold(int row, int column) {
-                if(row==1&&column==1){
-                    return true;
-                }
                 return false;
             }
 
@@ -97,11 +103,20 @@ public class SelectSeatActivity extends AppCompatActivity {
     private void initViews() {
         seatTableView = (SeatTable) findViewById(R.id.seatView);
         confirm_select_seat_btn = (Button) findViewById(R.id.confirm_select_seat_btn);
+        cinema_name_textView = (TextView) findViewById(R.id.cinema_name);
+        cinema_movie_time_textView = (TextView) findViewById(R.id.cinema_movie_time);
     }
 
     private void initData() {
         mSessionManager = SessionManager.getInstance();
         selectSeats = new ArrayList<>();
+        backend = BackendStub.getInstance();
+        mCinema = backend.getCinemaByID(mSessionManager.getMyCinemaID());
+    }
+
+    private void setViews() {
+        cinema_name_textView.setText(mCinema.cName);
+        cinema_movie_time_textView.setText("上映时间：" + mSessionManager.getStartTime() + " - " + mSessionManager.getEndTime());
     }
 
 }
