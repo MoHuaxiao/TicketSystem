@@ -2,6 +2,8 @@ package com.x7.ssad.ticketsystem.Session;
 
 import android.util.Pair;
 
+import com.x7.ssad.ticketsystem.Model.User;
+
 import java.util.ArrayList;
 
 /**
@@ -19,7 +21,7 @@ public class SessionManager {
         selectSeats = new ArrayList<>();
     }
 
-    private String myEmail;
+    private User myUser;
     private int myMovieID = -1;
     private boolean isOnAir;
     private Long myCinemaID;
@@ -28,12 +30,13 @@ public class SessionManager {
     private ArrayList<Pair<Integer, Integer>> selectSeats;
 
     //Tips: 按Ctrl+N 可自动生成getter&setter.
-    public String getMyEmail() {
-        return myEmail;
+
+    public User getMyUser() {
+        return myUser;
     }
 
-    public void setMyEmail(String myEmail) {
-        this.myEmail = myEmail;
+    public void setMyUser(User myUser) {
+        this.myUser = myUser;
     }
 
     public int getMyMovieID() {

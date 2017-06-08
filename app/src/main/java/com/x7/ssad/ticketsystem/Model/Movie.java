@@ -18,6 +18,7 @@ public class Movie {
     public String movieSourceDest;    //电影制作地
     public int movieLength;           //按分钟算
     public int nWantSee;
+    public String oneSentence;
     public String movieIntro;
 
     public int imageid;

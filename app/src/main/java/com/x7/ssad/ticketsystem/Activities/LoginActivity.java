@@ -30,12 +30,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
+import com.x7.ssad.ticketsystem.Model.User;
 import com.x7.ssad.ticketsystem.R;
 import com.x7.ssad.ticketsystem.Session.SessionManager;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -60,6 +63,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private SessionManager SM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        SM = SessionManager.getInstance();
     }
 
     private void populateAutoComplete() {
@@ -295,60 +302,78 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private User currentUser;
+
         Activity _a;
         BackendStub mBackend;
 
 
         UserLoginTask(Activity a, String email, String password) {
             _a = a;
-            mEmail = email;
-            mPassword = password;
+
+            currentUser = new User(email, password);
 
             mBackend = BackendStub.getInstance();
+            //Give Backend some application level authority
+            //Like Saving preference values etc.
+            mBackend.init(_a.getApplication());
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                return false;
+                return -1;
             }
 
-            if (mBackend.userExists(mEmail)) {
+            int code = mBackend.login(currentUser);
 
-                if( mBackend.verifyUser(mEmail, mPassword) ) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+            return code;
 
-            }
-
-            mBackend.addUser(mEmail, mPassword);
-            return true;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Integer code) {
             mAuthTask = null;
             showProgress(false);
 
+            switch (code) {
+                case 200:
+                    Toast.makeText(_a, "Login Success", Toast.LENGTH_SHORT).show();
+                    break;
+                case 201:
+                    Toast.makeText(_a, "User Created", Toast.LENGTH_SHORT).show();
+                    break;
+                case 202:
+                    Toast.makeText(_a, "You have already logged in", Toast.LENGTH_SHORT).show();
+                    break;
+                case 400:
+                    break;
+                case 404:
+                    Toast.makeText(_a, "Unknown Return code", Toast.LENGTH_SHORT).show();
+                    break;
+                case 500:
+                    Toast.makeText(_a, "Unknown ", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+
+            boolean success = code >= 200 && code < 300;
+
             if (success) {
+                SM.setMyUser(currentUser);
                 Intent i = new Intent(_a, MainActivity.class);
-                SessionManager.getInstance().setMyEmail(mEmail);
                 _a.startActivity(i);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if (code == 400) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 
