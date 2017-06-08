@@ -10,6 +10,7 @@ import java.util.List;
 public class Movie {
 
     public int mid;
+    public int douid;                 //豆瓣电影id
     public String name;
     public String nameEng;
     public float audience_rating;     //观众评分

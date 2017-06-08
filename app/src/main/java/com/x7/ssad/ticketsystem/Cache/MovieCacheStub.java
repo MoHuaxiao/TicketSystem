@@ -26,8 +26,8 @@ import retrofit2.Call;
 public class MovieCacheStub {
 
     //TODO: replace public member movie_list(local fake data) with hotMovies(actual network data)
-    List<Movie> movie_list;
-    List<Movie> hotMovies;
+    List<Movie> movie_list; //Fake Data
+    List<Movie> hotMovies;  //Real Internet Data
 
     List<StaffInfo> staffList;
     int movieshotIdList[] = {R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot};
@@ -188,20 +188,10 @@ public class MovieCacheStub {
 
     }
 
-    public Movie getMovie(int mid) {
-
-        Movie movie = null;
-        for (Movie m : hotMovies) {
-            if (m.mid == mid)
-                movie = m;
-        }
-
-        assert movie != null;
-        return movie;
-    }
+    public Movie getMovie(int mid) { return hotMovies.get(mid - 1); }
 
     public List<Movie> getMovieList() {
-        return movie_list;
+        return hotMovies;
     }
 
     public List<Movie> getMovieList(MovieService movieService) {

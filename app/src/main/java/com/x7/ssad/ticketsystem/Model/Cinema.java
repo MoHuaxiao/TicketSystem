@@ -1,5 +1,6 @@
 package com.x7.ssad.ticketsystem.Model;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,5 +27,19 @@ public class Cinema {
         this.cName = name;
         this.cPosition = position;
         this.cLowestPrice = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Cinema{" +
+                "cid=" + cid +
+                ", cName='" + cName + '\'' +
+                ", ShowingMovie=" + Arrays.toString(ShowingMovie) +
+                ", ShowingCnt=" + Arrays.toString(ShowingCnt) +
+                ", cPosition='" + cPosition + '\'' +
+                ", cLowestPrice=" + cLowestPrice +
+                ", cScore=" + cScore +
+                ", cTicketList=" + cTicketList +
+                '}';
     }
 }
