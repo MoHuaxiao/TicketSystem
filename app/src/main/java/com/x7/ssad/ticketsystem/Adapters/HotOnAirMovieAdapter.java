@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.x7.ssad.ticketsystem.Activities.MovieInfoActivity;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.Model.Movie;
@@ -44,6 +45,8 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
 
     SimpleDateFormat ft;
 
+    ImageLoader imageLoader = ImageLoader.getInstance();
+
     public HotOnAirMovieAdapter(Activity activity, List<Movie> movies) {
         super();
         mInflater = LayoutInflater.from(activity);
@@ -52,6 +55,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         res = activity.getResources();
         ft = new SimpleDateFormat("yyyy.MM.dd");
         movie_list = movies;
+
     }
 
     @Override
@@ -82,7 +86,9 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         //Filling Item
         //TODO: Implement a Cinema Manager Stub
         int sc = 100, sn = 1000;
-        holder.poster.setImageResource(m.imageid);
+        //holder.poster.setImageResource(m.imageid);
+        imageLoader.displayImage(m.mediumImageURI, holder.poster);
+
         holder.movieName.setText(m.name);
         holder.movieIntro.setText(m.oneSentence);
 
@@ -91,7 +97,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
             holder.showingTips.setText(res.getString(R.string.showing_cinema, sc, sn));
 
 
-            if (m.audience_rating != -1) {
+            if (m.audience_rating != 0.0) {
                 holder.ratingText1.setText("观众 ");
                 holder.ratingText2.setText(String.format("%.1f", m.audience_rating));
                 holder.ratingText1.setTextColor(res.getColor(R.color.textColor));

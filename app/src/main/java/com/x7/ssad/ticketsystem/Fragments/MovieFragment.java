@@ -24,6 +24,8 @@ import com.x7.ssad.ticketsystem.Model.User;
 import com.x7.ssad.ticketsystem.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -86,6 +88,7 @@ public class MovieFragment extends Fragment {
                 return null;
             }
 
+            Collections.sort(movieRetrieved, new MovieRatingComparator());
             return movieRetrieved;
 
         }
@@ -101,6 +104,13 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
+        }
+
+        private class MovieRatingComparator implements Comparator<Movie> {
+            @Override
+            public int compare(Movie movie, Movie t1) {
+                return (int)Math.signum(t1.audience_rating - movie.audience_rating);
+            }
         }
     }
 

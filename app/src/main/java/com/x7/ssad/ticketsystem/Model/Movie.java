@@ -23,6 +23,9 @@ public class Movie {
     public String movieIntro;
 
     public int imageid;
+    public String smallImageURI;
+    public String mediumImageURI;
+    public String largeImageURI;
 
     public List<StaffInfo> staffList;  //主创人员列表
     public int[] movieshotIdList;      //电影剪影列表

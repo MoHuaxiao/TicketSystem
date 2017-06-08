@@ -188,7 +188,17 @@ public class MovieCacheStub {
 
     }
 
-    public Movie getMovie(int mid) { return hotMovies.get(mid - 1); }
+    public Movie getMovie(int mid) {
+        Movie movie = null;
+        for(Movie m : hotMovies) {
+            if (m.mid == mid) {
+                movie = m;
+            }
+        }
+
+        assert movie != null;
+        return movie;
+    }
 
     public List<Movie> getMovieList() {
         return hotMovies;
@@ -205,6 +215,9 @@ public class MovieCacheStub {
 
             for(Movie m : airingMovies) {
 
+                //TODO: Load Image with Universal Image Loader
+                m.imageid = R.mipmap.poster_stub;
+                //TODO: Use real data
                 m.staffList = staffList;
                 m.movieshotIdList = movieshotIdList;
                 m.boxOffice = tmpBoxOffice;
