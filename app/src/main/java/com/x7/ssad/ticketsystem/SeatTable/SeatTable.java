@@ -921,11 +921,12 @@ public class SeatTable extends View {
 
 //    选择已经被选择的位置
     public ArrayList<Pair<Integer, Integer>> getSelectedSeat() {
-        ArrayList<Pair<Integer, Integer>> results=new ArrayList<>();
-        for(int i=0;i<this.row;i++){
-            for(int j=0;j<this.column;j++){
+        ArrayList<Pair<Integer, Integer>> results = new ArrayList<>();
+        for(int i=0;i < this.row;i++){
+            for(int j=0;j < this.column;j++){
                 if(isHave(getID(i,j))>=0){
-                    results.add(new Pair(i, j));
+//                    因为在矩阵中是0开始，所以行列都要加一
+                    results.add(new Pair(i + 1, j + 1));
                 }
             }
         }
