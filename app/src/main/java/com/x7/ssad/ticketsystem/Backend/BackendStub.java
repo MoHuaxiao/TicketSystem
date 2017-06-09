@@ -41,7 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //TODO: Change this to a real backend communication system.
 public class BackendStub {
 
-    public static final String BACKEND_SERVER_URI = "http://192.168.1.236:8081";
+    public static final String BACKEND_SERVER_URI = "http://139.199.176.148:8081";
 
     private static BackendStub ourInstance = new BackendStub();
 

@@ -15,6 +15,9 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.x7.ssad.ticketsystem.R;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 public class CheckPermissionActivity extends AppCompatActivity {
 
     Handler mHandler = new Handler();
@@ -48,22 +51,25 @@ public class CheckPermissionActivity extends AppCompatActivity {
                 .request(Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.INTERNET,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(granted -> {
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean granted) throws Exception {
 
-                    if (granted) {
-                        Toast.makeText(CheckPermissionActivity.this, "Granted", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(CheckPermissionActivity.this, LoginActivity.class);
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(CheckPermissionActivity.this, "App will close in 3 secs.", Toast.LENGTH_SHORT).show();
-                        mHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
+                            if (granted) {
+                                Toast.makeText(CheckPermissionActivity.this, "Granted", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(CheckPermissionActivity.this, LoginActivity.class);
+                                startActivity(i);
+                            } else {
+                                Toast.makeText(CheckPermissionActivity.this, "App will close in 3 secs.", Toast.LENGTH_SHORT).show();
+                                mHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                }, 3000);
                             }
-                        }, 3000);
-                    }
 
+                        }
                 });
 
     }
