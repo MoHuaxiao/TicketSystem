@@ -11,13 +11,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/cinema_name"
         android:text="XXX影院"
-        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cinema_movie_time"
+        android:layout_marginTop="5dp"
         android:text="上映时间：XXXXXXX"
         android:paddingLeft="10dp"/>
     <com.x7.ssad.ticketsystem.SeatTable.SeatTable
