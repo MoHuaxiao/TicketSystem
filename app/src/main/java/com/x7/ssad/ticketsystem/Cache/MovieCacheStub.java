@@ -2,6 +2,7 @@ package com.x7.ssad.ticketsystem.Cache;
 
 import android.util.Log;
 
+import com.x7.ssad.ticketsystem.Backend.Services.MovieService;
 import com.x7.ssad.ticketsystem.Model.BoxOffice;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.Model.Movie;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+
 /**
  * Created by WangYinghao on 5/26/17.
  */
@@ -22,7 +25,14 @@ import java.util.List;
 //TODO: implement a real movie cache system
 public class MovieCacheStub {
 
-    List<Movie> movie_list;
+    //TODO: replace public member movie_list(local fake data) with hotMovies(actual network data)
+    List<Movie> movie_list; //Fake Data
+    List<Movie> hotMovies;  //Real Internet Data
+
+    List<StaffInfo> staffList;
+    int movieshotIdList[] = {R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot};
+    BoxOffice tmpBoxOffice;
+    List<MovieComment> commentList;
 
     public MovieCacheStub() {
 
@@ -32,19 +42,16 @@ public class MovieCacheStub {
         try {
 
             //temp data
-            List<StaffInfo> staffList = new ArrayList<>();
+            staffList = new ArrayList<>();
             for (int i = 0; i < 6; i++) {
                 StaffInfo myStaffInfo = new StaffInfo(R.mipmap.johnny_depp,
                         "约翰尼·德普133", "饰 杰克船长333333");
                 staffList.add(myStaffInfo);
             }
 
-            int movieshotIdList[] = {R.mipmap.movie_shot, R.mipmap.movie_shot,
-                    R.mipmap.movie_shot, R.mipmap.movie_shot, R.mipmap.movie_shot};
+            tmpBoxOffice = new BoxOffice(2, 8663, 93546);
 
-            BoxOffice tmpBoxOffice = new BoxOffice(2, 8663, 93546);
-
-            List<MovieComment> commentList = new ArrayList<>();
+            commentList = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 MovieComment movieComment = new MovieComment(R.mipmap.ic_launcher,
                         "吃过群众" + i, "饰 饰 杰克船长333333aaaaaaaaaaa啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊凄凄切切群群群群群群群群群群群群群", "05-06");
@@ -182,10 +189,48 @@ public class MovieCacheStub {
     }
 
     public Movie getMovie(int mid) {
-        return movie_list.get(mid - 1);
+        Movie movie = null;
+        for(Movie m : hotMovies) {
+            if (m.mid == mid) {
+                movie = m;
+            }
+        }
+
+        assert movie != null;
+        return movie;
     }
 
     public List<Movie> getMovieList() {
-        return movie_list;
+        return hotMovies;
+    }
+
+    public List<Movie> getMovieList(MovieService movieService) {
+
+        hotMovies = new ArrayList<>();
+
+        Call<List<Movie>> getAirMovieIDCALL = movieService.getAirMovies();
+
+        try {
+            List<Movie> airingMovies = getAirMovieIDCALL.execute().body();
+
+            for(Movie m : airingMovies) {
+
+                //TODO: Load Image with Universal Image Loader
+                m.imageid = R.mipmap.poster_stub;
+                //TODO: Use real data
+                m.staffList = staffList;
+                m.movieshotIdList = movieshotIdList;
+                m.boxOffice = tmpBoxOffice;
+                m.commentList = commentList;
+
+                hotMovies.add(m);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return hotMovies;
+
     }
 }

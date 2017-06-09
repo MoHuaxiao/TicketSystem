@@ -1,6 +1,9 @@
 package com.x7.ssad.ticketsystem.Fragments;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,16 +14,30 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.x7.ssad.ticketsystem.Activities.MainActivity;
 import com.x7.ssad.ticketsystem.Adapters.HotOnAirMovieAdapter;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.Model.Movie;
+import com.x7.ssad.ticketsystem.Model.User;
 import com.x7.ssad.ticketsystem.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MovieFragment extends Fragment {
+
+    private List<Movie> movies;
+    HotOnAirMovieAdapter movieAdapter;
+
+    private GetMovietask getMovietask;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,9 +51,72 @@ public class MovieFragment extends Fragment {
         mLLM.setOrientation(LinearLayoutManager.VERTICAL);
         HotOnAirMovieList.setLayoutManager(mLLM);
 
-        Log.d("Activity", Integer.toString(backend.getHotOnAirMovies().size()));
+        movies = new ArrayList<>();
+        movieAdapter = new HotOnAirMovieAdapter(getActivity(), movies);
+        HotOnAirMovieList.setAdapter(movieAdapter);
 
-        HotOnAirMovieList.setAdapter(new HotOnAirMovieAdapter(getActivity(), backend));
+        getMovietask = new GetMovietask(getActivity());
+        getMovietask.execute((Void) null);
+
         return rootView;
     }
+
+    /**
+     * Asynchronous task to retrieve movie list.
+     */
+    public class GetMovietask extends AsyncTask<Void, Void, List> {
+
+        Activity _a;
+        BackendStub mBackend;
+
+
+        GetMovietask(Activity a) {
+            _a = a;
+            mBackend = BackendStub.getInstance();
+        }
+
+        @Override
+        protected List doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            List<Movie> movieRetrieved;
+            try {
+                // Simulate network access.
+                movieRetrieved = mBackend.getHotOnAirMovies();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            Collections.sort(movieRetrieved, new MovieRatingComparator());
+            return movieRetrieved;
+
+        }
+
+        @Override
+        protected void onPostExecute(final List movieRetrieved) {
+            if (movieRetrieved != null) {
+                movies.addAll(movieRetrieved);
+                movieAdapter.notifyDataSetChanged();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+
+        private class MovieRatingComparator implements Comparator<Movie> {
+            @Override
+            public int compare(Movie movie, Movie t1) {
+                return (int)Math.signum(t1.audience_rating - movie.audience_rating);
+            }
+        }
+    }
+
 }
+
+
+
+
+

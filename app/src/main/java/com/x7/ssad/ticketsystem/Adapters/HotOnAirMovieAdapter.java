@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.x7.ssad.ticketsystem.Activities.MovieInfoActivity;
 import com.x7.ssad.ticketsystem.Backend.BackendStub;
 import com.x7.ssad.ticketsystem.Model.Movie;
@@ -39,21 +40,21 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
 
     Activity _a;
     Resources res;
-    private BackendStub Backend;
     private List<Movie> movie_list;
     private LayoutInflater mInflater;
 
     SimpleDateFormat ft;
 
-    public HotOnAirMovieAdapter(Activity activity, BackendStub backend) {
+    ImageLoader imageLoader = ImageLoader.getInstance();
+
+    public HotOnAirMovieAdapter(Activity activity, List<Movie> movies) {
         super();
-        Backend = backend;
         mInflater = LayoutInflater.from(activity);
 
         _a = activity;
         res = activity.getResources();
-        movie_list = Backend.getHotOnAirMovies();
         ft = new SimpleDateFormat("yyyy.MM.dd");
+        movie_list = movies;
 
     }
 
@@ -77,7 +78,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
 
         final Movie m = movie_list.get(i);
 
-        Log.d("Adpater", m.name);
+//        Log.d("Adpater", m.name);
 
         Button buyNormal;
         Button buyWait;
@@ -85,16 +86,18 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
         //Filling Item
         //TODO: Implement a Cinema Manager Stub
         int sc = 100, sn = 1000;
-        holder.poster.setImageResource(m.imageid);
+        //holder.poster.setImageResource(m.imageid);
+        imageLoader.displayImage(m.mediumImageURI, holder.poster);
+
         holder.movieName.setText(m.name);
-        holder.movieIntro.setText(m.movieIntro);
+        holder.movieIntro.setText(m.oneSentence);
 
         //影片正在上演
         if (movie_list.get(i).onair) {
             holder.showingTips.setText(res.getString(R.string.showing_cinema, sc, sn));
 
 
-            if (m.audience_rating != -1) {
+            if (m.audience_rating != 0.0) {
                 holder.ratingText1.setText("观众 ");
                 holder.ratingText2.setText(String.format("%.1f", m.audience_rating));
                 holder.ratingText1.setTextColor(res.getColor(R.color.textColor));
@@ -141,7 +144,7 @@ public class HotOnAirMovieAdapter extends RecyclerView.Adapter<HotOnAirMovieAdap
 
     @Override
     public int getItemCount() {
-        return Backend.getHotOnAirMovies().size();
+        return movie_list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -3,6 +3,7 @@ package com.x7.ssad.ticketsystem.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -38,6 +39,8 @@ public class CinemaActivity extends AppCompatActivity {
 //            c = new Cinema("今日珠江国际影城", "番禺区小谷围贝岗二横路1好店 新天地店", 30);
 //            cinemaList.add(c);
 //        }
+
+        Log.d("Cinema", cinemaList.toString());
 
         CinemaAdapter cinemaAdapter = new CinemaAdapter(cinemaList, CinemaActivity.this);
         cinemaListView.setAdapter(cinemaAdapter);

@@ -1,14 +1,38 @@
 package com.x7.ssad.ticketsystem.Backend;
 
+import android.app.Application;
+import android.content.Context;
+import android.util.DebugUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.x7.ssad.ticketsystem.Backend.Services.LoginService;
+import com.x7.ssad.ticketsystem.Backend.Services.MovieService;
 import com.x7.ssad.ticketsystem.Cache.CinemaCacheStub;
 import com.x7.ssad.ticketsystem.Cache.MovieCacheStub;
+import com.x7.ssad.ticketsystem.Cache.UserDAOStub;
 import com.x7.ssad.ticketsystem.Model.Cinema;
 import com.x7.ssad.ticketsystem.Model.Movie;
+import com.x7.ssad.ticketsystem.Model.User;
+import com.x7.ssad.ticketsystem.Utils.AddCookiesInterceptor;
+import com.x7.ssad.ticketsystem.Utils.ReceivedCookiesInterceptor;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.prefs.Preferences;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by WangYinghao on 5/26/17.
@@ -16,70 +40,81 @@ import java.util.List;
 
 //TODO: Change this to a real backend communication system.
 public class BackendStub {
+
+    public static final String BACKEND_SERVER_URI = "http://139.199.176.148:8081";
+
     private static BackendStub ourInstance = new BackendStub();
-    List<String> USERS;
-    List<String> PASSWORDS;
+
     CinemaCacheStub CCS;
     MovieCacheStub MCS;
 
+    LoginService loginService;
+    MovieService movieService;
+
     private BackendStub() {
-        USERS = new ArrayList<>();
-        PASSWORDS = new ArrayList<>();
+
+        CCS = new CinemaCacheStub();
+        MCS = new MovieCacheStub();
+
     }
 
     public static BackendStub getInstance() {
         return ourInstance;
     }
 
-    //Precondition: Check Duplicate Before Using.
-    public boolean addUser(String username, String password) {
+    public void init(Application c) {
 
-        USERS.add(username);
-        PASSWORDS.add(password);
+        HttpLoggingInterceptor hli = new HttpLoggingInterceptor();
+        hli.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        CCS = new CinemaCacheStub();
-        MCS = new MovieCacheStub();
-
-        Log.d("Backend Stub", "User Added");
-
-        return true;
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new AddCookiesInterceptor(c))
+                .addInterceptor(new ReceivedCookiesInterceptor(c))
+                .addInterceptor(hli)
+                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BACKEND_SERVER_URI).callFactory(okHttpClient).addConverterFactory(GsonConverterFactory.create()).build();
+        loginService = retrofit.create(LoginService.class);
+        movieService = retrofit.create(MovieService.class);
 
     }
 
-    public boolean userExists(String username) {
-        for (int i = 0; i < USERS.size(); i++) {
-            if (username.equals(USERS.get(i))) {
-                Log.d("Backend Stub", "User exists.");
-                return true;
+    public int login(User u) {
+
+        Call<ResponseBody> loginCall = loginService.login(u);
+
+        try {
+            switch (loginCall.execute().code()) {
+                //User not exists
+                case 200:
+                    Log.d("Backend::Login", "Login Success");
+                    return 200;
+                //User exists
+                case 201:
+                    Log.d("Backend::Login", "User Created");
+                    return 201;
+                case 202:
+                    Log.d("Backend::Login", "User already logged in");
+                    return 202;
+                case 400:
+                    Log.d("Backend::Login", "Wrong Password");
+                    return 400;
+                default:
+                    Log.d("Backend::Login", "Unknown return code");
+                    return 404;
             }
+
         }
-        Log.d("Backend Stub", "User not exist.");
-        return false;
-    }
-
-    //Precondition: Check Exist before using.
-    public boolean verifyUser(String username, String password) {
-
-        for (int i = 0; i < USERS.size(); i++) {
-            if (username.equals(USERS.get(i))) {
-                if (password.equals(PASSWORDS.get(i))) {
-                    Log.d("Backend Stub", "Log in Successful.");
-                    return true;
-                }
-                else {
-                    Log.d("Backend Stub", "Password Incorrect.");
-                    return false;
-                }
-            }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
-        Log.d("Backend Stub", "Unknown Error.");
-        return false;
+        Log.d("Backend::Login", "Unknown error");
+        return 500;
 
     }
 
     public List<Movie> getHotOnAirMovies() {
-        return MCS.getMovieList();
+        return MCS.getMovieList(movieService);
     }
 
     public List<Cinema> getCinemaList() {
